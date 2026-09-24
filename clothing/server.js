@@ -85,7 +85,17 @@ app.use(
   "/adobe",
   express.static(adobePath)
 );
+// ==================================================
+// FRONTEND STATIC FILES
+// ==================================================
 
+app.use(express.static(__dirname));
+
+app.get("/", function (req, res) {
+  return res.sendFile(
+    path.join(__dirname, "index.html")
+  );
+});
 // ==================================================
 // UPLOAD FOLDER
 // ==================================================
@@ -192,14 +202,43 @@ const upload = multer({
 // AUTH MIDDLEWARE
 // ==================================================
 
+function isValidEmail(value) {
+
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
+
+}
+
+function readTrimmedString(value) {
+
+  if (value === null || value === undefined) {
+
+    return "";
+
+  }
+
+  return String(value).trim();
+
+}
+
+function isPositiveNumber(value, min = 0) {
+
+  const number = Number(value);
+
+  return Number.isFinite(number) && number >= min;
+
+}
+
 function verifyToken(req, res, next) {
 
   try {
 
     const authHeader =
-      req.headers.authorization || "";
+      typeof req.headers.authorization === "string"
+        ? req.headers.authorization
+        : "";
 
     if (
+      !authHeader ||
       !authHeader.startsWith("Bearer ")
     ) {
 
@@ -217,7 +256,22 @@ function verifyToken(req, res, next) {
     }
 
     const token =
-      authHeader.substring(7);
+      authHeader.substring(7).trim();
+
+    if (!token) {
+
+      return res
+        .status(401)
+        .json({
+
+          success: false,
+
+          message:
+            "Authorization token is required"
+
+        });
+
+    }
 
     const decoded =
       jwt.verify(
@@ -444,15 +498,13 @@ app.post(
     try {
 
       const email =
-        String(
-          req.body.email || ""
-        )
-        .trim()
-        .toLowerCase();
+        readTrimmedString(
+          req.body.email
+        ).toLowerCase();
 
       const password =
-        String(
-          req.body.password || ""
+        readTrimmedString(
+          req.body.password
         );
 
       if (
@@ -468,6 +520,21 @@ app.post(
 
             message:
               "Email and password are required"
+
+          });
+
+      }
+
+      if (!isValidEmail(email)) {
+
+        return res
+          .status(400)
+          .json({
+
+            success: false,
+
+            message:
+              "Please provide a valid email address"
 
           });
 
@@ -1410,6 +1477,7 @@ app.get(
 
 app.delete(
   "/api/reviews/:id",
+  verifyToken,
   verifyAdmin,
   async function (req, res) {
 
@@ -1592,24 +1660,24 @@ app.post(
     try {
 
       const name =
-        String(
-          req.body.name || ""
-        ).trim();
+        readTrimmedString(
+          req.body.name
+        );
 
       const email =
-        String(
-          req.body.email || ""
-        ).trim();
+        readTrimmedString(
+          req.body.email
+        ).toLowerCase();
 
       const subject =
-        String(
-          req.body.subject || ""
-        ).trim();
+        readTrimmedString(
+          req.body.subject
+        );
 
       const message =
-        String(
-          req.body.message || ""
-        ).trim();
+        readTrimmedString(
+          req.body.message
+        );
 
       if (
         !name ||
@@ -1626,6 +1694,21 @@ app.post(
 
             message:
               "All fields are required"
+
+          });
+
+      }
+
+      if (!isValidEmail(email)) {
+
+        return res
+          .status(400)
+          .json({
+
+            success: false,
+
+            message:
+              "Please provide a valid email address"
 
           });
 
@@ -1792,31 +1875,29 @@ app.post(
     try {
 
       const service =
-        String(
-          req.body.service || ""
-        ).trim();
+        readTrimmedString(
+          req.body.service
+        );
 
       const packageName =
-        String(
-          req.body.package || ""
-        ).trim();
+        readTrimmedString(
+          req.body.package
+        );
 
       const name =
-        String(
-          req.body.name || ""
-        ).trim();
+        readTrimmedString(
+          req.body.name
+        );
 
       const email =
-        String(
-          req.body.email || ""
-        )
-        .trim()
-        .toLowerCase();
+        readTrimmedString(
+          req.body.email
+        ).toLowerCase();
 
       const notes =
-        String(
-          req.body.notes || ""
-        ).trim();
+        readTrimmedString(
+          req.body.notes
+        );
 
       const price =
         Number(
@@ -1828,50 +1909,49 @@ app.post(
       // ============================
 
       const designType =
-        String(
-          req.body.designType || ""
-        ).trim();
+        readTrimmedString(
+          req.body.designType
+        );
 
       const patternStyle =
-        String(
-          req.body.patternStyle || ""
-        ).trim();
+        readTrimmedString(
+          req.body.patternStyle
+        );
 
       const fileType =
-        String(
-          req.body.fileType || ""
-        ).trim();
+        readTrimmedString(
+          req.body.fileType
+        );
 
       const color =
-        String(
-          req.body.color || ""
-        ).trim();
+        readTrimmedString(
+          req.body.color
+        );
 
       const colorName =
-        String(
-          req.body.colorName || ""
-        ).trim();
+        readTrimmedString(
+          req.body.colorName
+        );
 
       const size =
-        String(
-          req.body.size || ""
-        ).trim();
+        readTrimmedString(
+          req.body.size
+        );
 
       const quantity =
         Number(
-          req.body.quantity
-        ) || 1;
+          req.body.quantity ?? 1
+        );
 
       const additionalInstructions =
-        String(
-          req.body.additionalInstructions || ""
-        ).trim();
+        readTrimmedString(
+          req.body.additionalInstructions
+        );
 
       const referenceImage =
-        String(
-          req.body.referenceImage || ""
-        ).trim();
-
+        readTrimmedString(
+          req.body.referenceImage
+        );
 
       if (
         !service ||
@@ -1893,9 +1973,22 @@ app.post(
 
       }
 
-      if (
-        Number.isNaN(price)
-      ) {
+      if (!isValidEmail(email)) {
+
+        return res
+          .status(400)
+          .json({
+
+            success: false,
+
+            message:
+              "Please provide a valid email address"
+
+          });
+
+      }
+
+      if (!isPositiveNumber(price, 0)) {
 
         return res
           .status(400)
@@ -1905,6 +1998,21 @@ app.post(
 
             message:
               "Valid price is required"
+
+          });
+
+      }
+
+      if (!isPositiveNumber(quantity, 1)) {
+
+        return res
+          .status(400)
+          .json({
+
+            success: false,
+
+            message:
+              "Quantity must be at least 1"
 
           });
 
@@ -2749,25 +2857,23 @@ app.post(
     try {
 
       const firstName =
-        String(
-          req.body.firstName || ""
-        ).trim();
+        readTrimmedString(
+          req.body.firstName
+        );
 
       const lastName =
-        String(
-          req.body.lastName || ""
-        ).trim();
+        readTrimmedString(
+          req.body.lastName
+        );
 
       const email =
-        String(
-          req.body.email || ""
-        )
-        .trim()
-        .toLowerCase();
+        readTrimmedString(
+          req.body.email
+        ).toLowerCase();
 
       const password =
-        String(
-          req.body.password || ""
+        readTrimmedString(
+          req.body.password
         );
 
       if (
@@ -2785,6 +2891,36 @@ app.post(
 
             message:
               "All fields are required"
+
+          });
+
+      }
+
+      if (firstName.length < 2 || lastName.length < 2) {
+
+        return res
+          .status(400)
+          .json({
+
+            success: false,
+
+            message:
+              "First and last name must be at least 2 characters"
+
+          });
+
+      }
+
+      if (!isValidEmail(email)) {
+
+        return res
+          .status(400)
+          .json({
+
+            success: false,
+
+            message:
+              "Please provide a valid email address"
 
           });
 
@@ -2839,12 +2975,16 @@ app.post(
           password,
           12
         );
-       const customerId =
-  "CUS-" +
-  Date.now().toString().slice(-8);
+
+      const customerId =
+        "CUS-" +
+        Date.now().toString().slice(-8);
 
       const user = {
-  
+
+        customerId:
+          customerId,
+
         firstName:
           firstName,
 
@@ -2912,6 +3052,9 @@ app.post(
             id:
               result.insertedId,
 
+            customerId:
+              customerId,
+
             firstName:
               firstName,
 
@@ -2962,16 +3105,44 @@ app.post(
     try {
 
       const email =
-        String(
-          req.body.email || ""
-        )
-        .trim()
-        .toLowerCase();
+        readTrimmedString(
+          req.body.email
+        ).toLowerCase();
 
       const password =
-        String(
-          req.body.password || ""
+        readTrimmedString(
+          req.body.password
         );
+
+      if (!email || !password) {
+
+        return res
+          .status(400)
+          .json({
+
+            success: false,
+
+            message:
+              "Email and password are required"
+
+          });
+
+      }
+
+      if (!isValidEmail(email)) {
+
+        return res
+          .status(400)
+          .json({
+
+            success: false,
+
+            message:
+              "Please provide a valid email address"
+
+          });
+
+      }
 
       const users =
         mongoose.connection.db
