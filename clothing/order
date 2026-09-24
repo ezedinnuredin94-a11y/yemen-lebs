@@ -1,0 +1,528 @@
+/*
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Yemen Lebs — Place Your Order</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f5f1;
+      color: #171717;
+      min-height: 100vh;
+    }
+
+    header {
+      height: 82px;
+      border-bottom: 1px solid #ddd8d0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 7%;
+      background: #f7f5f1;
+    }
+
+    .logo {
+      font-family: Georgia, serif;
+      font-size: 27px;
+      letter-spacing: 3px;
+      font-weight: 600;
+    }
+
+    .logout {
+      border: 1px solid #222;
+      background: transparent;
+      padding: 11px 22px;
+      cursor: pointer;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .logout:hover {
+      background: #171717;
+      color: white;
+    }
+
+    main {
+      width: min(1100px, 90%);
+      margin: 70px auto;
+    }
+
+    .welcome {
+      margin-bottom: 55px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #777;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-family: Georgia, serif;
+      font-size: clamp(40px, 6vw, 68px);
+      font-weight: 400;
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .welcome p {
+      color: #666;
+      font-size: 15px;
+    }
+
+    .section-title {
+      font-family: Georgia, serif;
+      font-size: 31px;
+      font-weight: 400;
+      margin-bottom: 25px;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .service {
+      background: white;
+      border: 1px solid #ddd8d0;
+      padding: 34px 28px;
+      cursor: pointer;
+      transition: .25s ease;
+      min-height: 220px;
+      position: relative;
+    }
+
+    .service:hover {
+      transform: translateY(-4px);
+      border-color: #222;
+    }
+
+    .service.active {
+      border: 2px solid #171717;
+    }
+
+    .number {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #888;
+      margin-bottom: 35px;
+    }
+
+    .service h3 {
+      font-family: Georgia, serif;
+      font-size: 25px;
+      font-weight: 400;
+      margin-bottom: 12px;
+    }
+
+    .service p {
+      color: #777;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .check {
+      position: absolute;
+      top: 22px;
+      right: 22px;
+      width: 25px;
+      height: 25px;
+      border: 1px solid #222;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .service.active .check {
+      display: flex;
+    }
+
+    .order-box {
+      margin-top: 55px;
+      background: #171717;
+      color: white;
+      padding: 38px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .order-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #aaa;
+      margin-bottom: 10px;
+    }
+
+    .selected-service {
+      font-family: Georgia, serif;
+      font-size: 29px;
+    }
+
+    .continue-btn {
+      border: 1px solid white;
+      background: white;
+      color: #171717;
+      padding: 15px 28px;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+    }
+
+    .continue-btn:hover {
+      background: transparent;
+      color: white;
+    }
+
+    .message {
+      margin-top: 18px;
+      font-size: 13px;
+      display: none;
+    }
+
+    @media (max-width: 750px) {
+      header {
+        padding: 0 5%;
+      }
+
+      main {
+        width: 90%;
+        margin: 45px auto;
+      }
+
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      .order-box {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">YEMEN LEBS</div>
+
+    <button
+      class="logout"
+      id="logoutBtn"
+    >
+      LOG OUT
+    </button>
+  </header>
+
+
+  <main>
+
+    <section class="welcome">
+
+      <div class="eyebrow">
+        Start Your Project
+      </div>
+
+      <h1>
+        Let's create<br>
+        something beautiful.
+      </h1>
+
+      <p id="welcomeText">
+        Choose the service you need to continue.
+      </p>
+
+    </section>
+
+
+    <section>
+
+      <h2 class="section-title">
+        Choose Your Service
+      </h2>
+
+
+      <div class="services">
+
+        <div
+          class="service"
+          data-service="Fashion Illustration"
+        >
+
+          <div class="check">✓</div>
+
+          <div class="number">
+            01 / SERVICE
+          </div>
+
+          <h3>
+            Fashion Illustration
+          </h3>
+
+          <p>
+            Professional fashion illustrations
+            created for your collection and ideas.
+          </p>
+
+        </div>
+
+
+        <div
+          class="service"
+          data-service="Pattern Design"
+        >
+
+          <div class="check">✓</div>
+
+          <div class="number">
+            02 / SERVICE
+          </div>
+
+          <h3>
+            Pattern Design
+          </h3>
+
+          <p>
+            Production-ready patterns developed
+            with accurate garment construction.
+          </p>
+
+        </div>
+
+
+        <div
+          class="service"
+          data-service="Tech Pack"
+        >
+
+          <div class="check">✓</div>
+
+          <div class="number">
+            03 / SERVICE
+          </div>
+
+          <h3>
+            Tech Pack
+          </h3>
+
+          <p>
+            Complete factory-ready technical
+            documentation for your garment.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="order-box">
+
+        <div>
+
+          <div class="order-label">
+            Selected Service
+          </div>
+
+          <div
+            class="selected-service"
+            id="selectedService"
+          >
+            Select a service
+          </div>
+
+          <div
+            class="message"
+            id="message"
+          >
+            Please select a service first.
+          </div>
+
+        </div>
+
+
+        <button
+          class="continue-btn"
+          id="continueBtn"
+        >
+          CONTINUE →
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    /*
+    ==========================================
+    CHECK LOGIN
+    ==========================================
+    */
+
+    const token =
+      localStorage.getItem("token");
+
+
+    if (!token) {
+
+      window.location.href =
+        "login.html";
+
+    }
+
+
+    /*
+    ==========================================
+    USER INFORMATION
+    ==========================================
+    */
+
+    const user =
+      JSON.parse(
+        localStorage.getItem("user") || "{}"
+      );
+
+
+    if (user.firstName) {
+
+      document.getElementById(
+        "welcomeText"
+      ).textContent =
+        "Welcome " +
+        user.firstName +
+        ". Choose the service you need to continue.";
+
+    }
+
+
+    /*
+    ==========================================
+    SERVICE SELECTION
+    ==========================================
+    */
+
+    const services =
+      document.querySelectorAll(
+        ".service"
+      );
+
+    const selectedService =
+      document.getElementById(
+        "selectedService"
+      );
+
+    const message =
+      document.getElementById(
+        "message"
+      );
+
+    let selected = "";
+
+
+    services.forEach(
+      function(service) {
+
+        service.addEventListener(
+          "click",
+          function() {
+
+            services.forEach(
+              function(item) {
+
+                item.classList.remove(
+                  "active"
+                );
+
+              }
+            );
+
+
+            service.classList.add(
+              "active"
+            );
+
+
+            selected =
+              service.dataset.service;
+
+
+            selectedService.textContent =
+              selected;
+
+
+            message.style.display =
+              "none";
+
+          }
+        );
+
+      }
+    );
+
+/* 
+========================================== 
+CONTINUE 
+========================================== 
+*/
+
+document
+  .getElementById("continueBtn")
+  .addEventListener(
+    "click",
+    function() {
+
+      if (!selected) {
+
+        message.style.display =
+          "block";
+
+        return;
+
+      }
+
+
+      localStorage.setItem(
+        "selectedService",
+        selected
+      );
+
+
+      /*
+      ==========================================
+      GO TO EXISTING PACKAGES
+      ==========================================
+      */
+
+      window.location.href =
+        "index.html#packages";
+
+    }
+  );
+
+  </script>
+
+</body>
+</html>

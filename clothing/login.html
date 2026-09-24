@@ -1,0 +1,641 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Welcome Back — Yemen Lebs</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    :root {
+      --bg: #FAF9F6;
+      --ink: #1A1A1A;
+      --accent: #7A2E2E;
+      --muted: #8C8C8C;
+      --line: #D9D6CE;
+      --card: #FFFFFF;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Inter", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 42px;
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+      font-style: italic;
+    }
+
+    .login-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      padding: 46px 42px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+      font-weight: 400;
+      font-size: 42px;
+      line-height: 1.05;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 34px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    input {
+      width: 100%;
+      height: 52px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      padding: 0 15px;
+      color: var(--ink);
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(122, 46, 46, 0.08);
+    }
+
+    .name-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .password-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .password-row label {
+      margin-bottom: 0;
+    }
+
+    .forgot {
+      color: var(--accent);
+      font-size: 11px;
+      text-decoration: none;
+    }
+
+    .forgot:hover {
+      text-decoration: underline;
+    }
+
+    .login-button {
+      width: 100%;
+      height: 52px;
+      margin-top: 8px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: white;
+      font-family: "Inter", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .login-button:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .status {
+      min-height: 20px;
+      margin-top: 16px;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .register {
+      margin-top: 30px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .register a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .register a:hover {
+      text-decoration: underline;
+    }
+
+    .back {
+      display: block;
+      margin-top: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      text-decoration: none;
+    }
+
+    .back:hover {
+      color: var(--ink);
+    }
+
+    @media (max-width: 520px) {
+
+      body {
+        padding: 18px;
+      }
+
+      .login-card {
+        padding: 36px 24px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .name-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="login-container">
+
+    <div class="logo">
+      Yemen Lebs
+    </div>
+
+    <div class="login-card">
+
+      <div class="eyebrow">
+        Client Account
+      </div>
+
+      <h1>
+        Welcome Back
+      </h1>
+
+      <p class="subtitle">
+        Sign in to continue with your order.
+      </p>
+
+      <form id="loginForm">
+
+        <div class="name-row">
+
+          <div class="form-group">
+
+            <label for="firstName">
+              Name
+            </label>
+
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              placeholder="First name"
+              autocomplete="given-name"
+              required
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="lastName">
+              Last Name
+            </label>
+
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              placeholder="Last name"
+              autocomplete="family-name"
+              required
+            >
+
+          </div>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="email">
+            Email
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            autocomplete="email"
+            required
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <div class="password-row">
+
+            <label for="password">
+              Password
+            </label>
+
+            <a
+              href="#"
+              class="forgot"
+              id="forgotPassword"
+            >
+              Forgot Password?
+            </a>
+
+          </div>
+
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+          >
+
+        </div>
+
+        <button
+          type="submit"
+          class="login-button"
+        >
+          Login
+        </button>
+
+        <p
+          id="loginStatus"
+          class="status"
+        ></p>
+
+      </form>
+
+      <div class="register">
+
+        Don't have an account?
+
+        <a href="index.html?register=true">
+          Create Account
+        </a>
+
+      </div>
+
+    </div>
+
+    <a
+      href="index.html"
+      class="back"
+    >
+      ← Back to Yemen Lebs
+    </a>
+
+  </div>
+
+  <script>
+
+    // ==========================================
+    // LOGIN ELEMENTS
+    // ==========================================
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginStatus =
+      document.getElementById("loginStatus");
+
+
+    // ==========================================
+    // LOGIN
+    // ==========================================
+
+    loginForm.addEventListener(
+      "submit",
+      async function (event) {
+
+        event.preventDefault();
+
+
+        const firstName =
+          document
+            .getElementById("firstName")
+            .value
+            .trim();
+
+
+        const lastName =
+          document
+            .getElementById("lastName")
+            .value
+            .trim();
+
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+
+        if (
+          !firstName ||
+          !lastName ||
+          !email ||
+          !password
+        ) {
+
+          loginStatus.textContent =
+            "❌ Please fill in all fields.";
+
+          return;
+
+        }
+
+
+        loginStatus.textContent =
+          "Signing in...";
+
+
+        try {
+
+          const response =
+            await fetch(
+              "http://localhost:5000/api/auth/login",
+              {
+                method: "POST",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body: JSON.stringify({
+                  email: email,
+                  password: password
+                })
+
+              }
+            );
+
+
+          const responseText =
+            await response.text();
+
+
+          let data;
+
+
+          try {
+
+            data =
+              JSON.parse(responseText);
+
+          } catch (jsonError) {
+
+            console.error(
+              "❌ SERVER RESPONSE:",
+              responseText
+            );
+
+            throw new Error(
+              "Server returned an invalid response."
+            );
+
+          }
+
+
+          if (
+            !response.ok ||
+            !data.success
+          ) {
+
+            throw new Error(
+              data.message ||
+              "Invalid email or password."
+            );
+
+          }
+
+
+          // ========================================
+          // SAVE JWT
+          // ========================================
+
+          localStorage.setItem(
+            "token",
+            data.token
+          );
+
+
+          // ========================================
+          // SAVE USER DATA
+          // ========================================
+
+          if (data.user) {
+
+            localStorage.setItem(
+              "userId",
+              String(data.user.id)
+            );
+
+            localStorage.setItem(
+              "firstName",
+              data.user.firstName || firstName
+            );
+
+            localStorage.setItem(
+              "lastName",
+              data.user.lastName || lastName
+            );
+
+            localStorage.setItem(
+              "email",
+              data.user.email || email
+            );
+
+            localStorage.setItem(
+              "role",
+              data.user.role || "user"
+            );
+
+          }
+
+
+          // ========================================
+          // KEEP SELECTED PACKAGE
+          // ========================================
+
+          const selectedPackage =
+            sessionStorage.getItem(
+              "selectedPackage"
+            );
+
+          const selectedPrice =
+            sessionStorage.getItem(
+              "selectedPrice"
+            );
+
+
+          console.log(
+            "📦 SELECTED PACKAGE:",
+            selectedPackage
+          );
+
+          console.log(
+            "💰 SELECTED PRICE:",
+            selectedPrice
+          );
+
+
+          // ========================================
+          // SUCCESS
+          // ========================================
+
+          loginStatus.textContent =
+            "✅ Login successful!";
+
+
+          // ========================================
+          // GO TO ORDER
+          // ========================================
+
+          setTimeout(
+            function () {
+
+              window.location.href = "design-details.html";
+
+            },
+            700
+          );
+
+        }
+
+        catch (error) {
+
+          console.error(
+            "❌ LOGIN ERROR:",
+            error
+          );
+
+          loginStatus.textContent =
+            "❌ " +
+            error.message;
+
+        }
+
+      }
+    );
+
+
+    // ==========================================
+    // FORGOT PASSWORD
+    // ==========================================
+
+    document
+      .getElementById("forgotPassword")
+      .addEventListener(
+        "click",
+        function (event) {
+
+          event.preventDefault();
+
+          alert(
+            "Password reset will be available soon."
+          );
+
+        }
+      );
+
+  </script>
+
+</body>
+
+</html>

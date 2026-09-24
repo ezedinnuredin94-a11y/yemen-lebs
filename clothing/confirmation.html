@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Order Confirmed — Yemen Lebs</title>
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#f7f5f1;
+  color:#171717;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:30px 15px;
+}
+
+.card{
+  background:#fff;
+  width:min(720px,100%);
+  padding:55px 40px;
+  text-align:center;
+  border:1px solid #ddd;
+}
+
+.check{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:#171717;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:42px;
+  margin:0 auto 25px;
+}
+
+h1{
+  font-family:Georgia,serif;
+  font-size:42px;
+  font-weight:400;
+  margin-bottom:15px;
+}
+
+.intro{
+  color:#666;
+  line-height:1.8;
+  margin-bottom:25px;
+}
+
+/* =========================
+   ORDER BOX
+========================= */
+
+.order-box{
+  background:#f7f5f1;
+  padding:22px;
+  text-align:left;
+  margin:25px 0;
+}
+
+.order-title{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:15px;
+  padding-bottom:12px;
+  border-bottom:1px solid #ddd;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  padding:10px 0;
+  border-bottom:1px solid #e5e2dd;
+}
+
+.row:last-child{
+  border-bottom:none;
+}
+
+.row span{
+  color:#777;
+  font-size:14px;
+  flex:0 0 40%;
+}
+
+.row strong{
+  font-size:14px;
+  text-align:right;
+  word-break:break-word;
+  flex:1;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+.status-pending{
+  color:#b26a00;
+}
+
+.status-processing{
+  color:#1769aa;
+}
+
+/* =========================
+   DESIGN DETAILS
+========================= */
+
+.design-section{
+  margin-top:25px;
+  background:#fafafa;
+  border:1px solid #e1e1e1;
+  padding:22px;
+  text-align:left;
+}
+
+.design-section h2{
+  font-size:18px;
+  margin-bottom:18px;
+}
+
+.design-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 25px;
+}
+
+.design-item{
+  padding:11px 0;
+  border-bottom:1px solid #e8e8e8;
+}
+
+.design-item label{
+  display:block;
+  color:#777;
+  font-size:12px;
+  margin-bottom:5px;
+  text-transform:uppercase;
+  letter-spacing:.5px;
+}
+
+.design-item strong{
+  display:block;
+  font-size:14px;
+  line-height:1.5;
+  word-break:break-word;
+}
+
+/* =========================
+   TEXT DETAILS
+========================= */
+
+.text-section{
+  margin-top:20px;
+  padding:20px;
+  background:#f7f5f1;
+  text-align:left;
+}
+
+.text-section h3{
+  font-size:14px;
+  margin-bottom:8px;
+}
+
+.text-section p{
+  color:#666;
+  font-size:14px;
+  line-height:1.7;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+/* =========================
+   REFERENCE IMAGE
+========================= */
+
+.image-section{
+  margin-top:25px;
+  text-align:left;
+  display:none;
+}
+
+.image-section h2{
+  font-size:18px;
+  margin-bottom:12px;
+}
+
+.image-wrapper{
+  background:#f7f5f1;
+  padding:15px;
+  border:1px solid #ddd;
+  text-align:center;
+}
+
+#referenceImage{
+  max-width:100%;
+  max-height:500px;
+  height:auto;
+  display:block;
+  margin:auto;
+  object-fit:contain;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.btn{
+  display:inline-block;
+  padding:15px 30px;
+  background:#171717;
+  color:white;
+  text-decoration:none;
+  margin-top:25px;
+  transition:.2s ease;
+}
+
+.btn:hover{
+  background:#333;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+  body{
+    padding:15px;
+    align-items:flex-start;
+  }
+
+  .card{
+    padding:35px 20px;
+  }
+
+  h1{
+    font-size:34px;
+  }
+
+  .design-grid{
+    grid-template-columns:1fr;
+  }
+
+  .row{
+    flex-direction:column;
+    gap:5px;
+  }
+
+  .row span{
+    flex:none;
+  }
+
+  .row strong{
+    text-align:left;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+  <!-- =========================
+       SUCCESS
+  ========================== -->
+
+  <div class="check">
+    ✓
+  </div>
+
+  <h1>
+    Order Confirmed
+  </h1>
+
+  <p class="intro">
+    Thank you for your order.
+    Your project has been submitted successfully.
+  </p>
+
+  <!-- =========================
+       ORDER INFORMATION
+  ========================== -->
+
+  <div class="order-box">
+
+```
+<div class="order-title">
+  Order Information
+</div>
+
+
+<div class="row">
+
+  <span>
+    Order Number
+  </span>
+
+  <strong id="orderNumber">
+    -
+  </strong>
+
+</div>
+
+
+<div class="row">
+
+  <span>
+    Customer Name
+  </span>
+
+  <strong id="customerName">
+    -
+  </strong>
+
+</div>
+
+
+<div class="row">
+
+  <span>
+    Email
+  </span>
+
+  <strong id="customerEmail">
+    -
+  </strong>
+
+</div>
+
+
+<div class="row">
+
+  <span>
+    Service
+  </span>
+
+  <strong id="service">
+    -
+  </strong>
+
+</div>
+
+
+<div class="row">
+
+  <span>
+    Package
+  </span>
+
+  <strong id="package">
+    -
+  </strong>
+
+</div>
+
+
+<div class="row">
+
+  <span>
+    Total
+  </span>
+
+  <strong id="price">
+    $0.00
+  </strong>
+
+</div>
+
+
+<div class="row">
+
+  <span>
+    Payment Method
+  </span>
+
+  <strong id="paymentMethod">
+    -
+  </strong>
+
+</div>
+
+
+<div class="row">
+
+  <span>
+    Payment Status
+  </span>
+
+  <strong
+    id="paymentStatus"
+    class="status-pending"
+  >
+    -
+  </strong>
+
+</div>
+
+
+<div class="row">
+
+  <span>
+    Order Status
+  </span>
+
+  <strong
+    id="orderStatus"
+    class="status-processing"
+  >
+    -
+  </strong>
+
+</div>
+```
+
+  </div>
+
+  <!-- =========================
+       DESIGN DETAILS
+  ========================== -->
+
+  <div class="design-section">
+
+```
+<h2>
+  Design Details
+</h2>
+
+
+<div class="design-grid">
+
+
+  <div class="design-item">
+
+    <label>
+      Design Type
+    </label>
+
+    <strong id="designType">
+      -
+    </strong>
+
+  </div>
+
+
+  <div class="design-item">
+
+    <label>
+      Pattern Style
+    </label>
+
+    <strong id="patternStyle">
+      -
+    </strong>
+
+  </div>
+
+
+  <div class="design-item">
+
+    <label>
+      File Type
+    </label>
+
+    <strong id="fileType">
+      -
+    </strong>
+
+  </div>
+
+
+  <div class="design-item">
+
+    <label>
+      Color
+    </label>
+
+    <strong id="color">
+      -
+    </strong>
+
+  </div>
+
+
+  <div class="design-item">
+
+    <label>
+      Size
+    </label>
+
+    <strong id="size">
+      -
+    </strong>
+
+  </div>
+
+
+  <div class="design-item">
+
+    <label>
+      Quantity
+    </label>
+
+    <strong id="quantity">
+      -
+    </strong>
+
+  </div>
+
+
+</div>
+```
+
+  </div>
+
+  <!-- =========================
+       DESCRIPTION
+  ========================== -->
+
+  <div class="text-section">
+
+```
+<h3>
+  Design Description
+</h3>
+
+<p id="description">
+  -
+</p>
+```
+
+  </div>
+
+  <!-- =========================
+       ADDITIONAL INSTRUCTIONS
+  ========================== -->
+
+  <div class="text-section">
+
+```
+<h3>
+  Additional Instructions
+</h3>
+
+<p id="instructions">
+  -
+</p>
+```
+
+  </div>
+
+  <!-- =========================
+       REFERENCE IMAGE
+  ========================== -->
+
+  <div
+    class="image-section"
+    id="imageContainer"
+  >
+
+```
+<h2>
+  Reference Image
+</h2>
+
+<div class="image-wrapper">
+
+  <img
+    id="referenceImage"
+    alt="Customer reference image"
+  >
+
+</div>
+```
+
+  </div>
+
+  <!-- =========================
+       HOME BUTTON
+  ========================== -->
+
+<a
+href="index.html"
+class="btn"
+
+>
+
+```
+Back to Home
+```
+
+  </a>
+
+</div>
+
+<script>
+
+/* ==================================================
+   LOAD FINAL ORDER
+================================================== */
+
+const order = JSON.parse(
+  localStorage.getItem("finalOrder") || "null"
+);
+
+
+/* ==================================================
+   CHECK ORDER
+================================================== */
+
+if (!order) {
+
+  alert("Order not found.");
+
+  window.location.href = "index.html";
+
+}
+
+
+/* ==================================================
+   IF ORDER EXISTS
+================================================== */
+
+else {
+
+
+  /* ==================================================
+     CUSTOMER
+  ================================================== */
+
+  document.getElementById(
+    "customerName"
+  ).textContent =
+    order.customer?.name || "-";
+
+
+  document.getElementById(
+    "customerEmail"
+  ).textContent =
+    order.customer?.email || "-";
+
+
+  /* ==================================================
+     ORDER
+  ================================================== */
+
+  document.getElementById(
+    "orderNumber"
+  ).textContent =
+    order.orderNumber || "-";
+
+
+  document.getElementById(
+    "service"
+  ).textContent =
+    order.design?.designType || "-";
+
+
+  document.getElementById(
+    "package"
+  ).textContent =
+    order.package || "-";
+
+
+  document.getElementById(
+    "price"
+  ).textContent =
+    "$" + Number(order.amount || 0).toFixed(2);
+
+
+  document.getElementById(
+    "paymentMethod"
+  ).textContent =
+    order.paymentMethod || "-";
+
+
+  document.getElementById(
+    "paymentStatus"
+  ).textContent =
+    order.paymentStatus || "-";
+
+
+  document.getElementById(
+    "orderStatus"
+  ).textContent =
+    order.orderStatus || "-";
+
+
+  /* ==================================================
+     DESIGN DETAILS
+  ================================================== */
+
+  document.getElementById(
+    "designType"
+  ).textContent =
+    order.design?.designType || "-";
+
+
+  document.getElementById(
+    "patternStyle"
+  ).textContent =
+    order.design?.patternStyle || "-";
+
+
+  document.getElementById(
+    "fileType"
+  ).textContent =
+    order.design?.fileType || "-";
+
+
+  document.getElementById(
+    "color"
+  ).textContent =
+    order.design?.colorName ||
+    order.design?.color ||
+    "-";
+
+
+  document.getElementById(
+    "size"
+  ).textContent =
+    order.design?.size || "-";
+
+
+  document.getElementById(
+    "quantity"
+  ).textContent =
+    order.design?.quantity || "-";
+
+
+  /* ==================================================
+     DESCRIPTION
+  ================================================== */
+
+  document.getElementById(
+    "description"
+  ).textContent =
+    order.design?.description ||
+    "No description provided.";
+
+
+  /* ==================================================
+     ADDITIONAL INSTRUCTIONS
+  ================================================== */
+
+  document.getElementById(
+    "instructions"
+  ).textContent =
+    order.design?.additionalInstructions ||
+    "No additional instructions provided.";
+
+
+  /* ==================================================
+     REFERENCE IMAGE
+  ================================================== */
+
+  const referenceImage =
+    order.design?.referenceImage || "";
+
+
+  if (referenceImage) {
+
+    const imageContainer =
+      document.getElementById(
+        "imageContainer"
+      );
+
+
+    const image =
+      document.getElementById(
+        "referenceImage"
+      );
+
+
+    let imageUrl =
+      referenceImage;
+
+
+    /* ----------------------------------------------
+       Convert relative server path to full URL
+    ---------------------------------------------- */
+
+    if (
+      referenceImage.startsWith("/")
+    ) {
+
+      imageUrl =
+        "http://localhost:5000" +
+        referenceImage;
+
+    }
+
+    else if (
+      referenceImage.startsWith("adobe/")
+    ) {
+
+      imageUrl =
+        "http://localhost:5000/" +
+        referenceImage;
+
+    }
+
+
+    image.src =
+      imageUrl;
+
+
+    imageContainer.style.display =
+      "block";
+
+
+    image.onerror =
+      function() {
+
+        console.error(
+          "❌ Reference image could not be loaded:",
+          imageUrl
+        );
+
+        imageContainer.style.display =
+          "none";
+
+      };
+
+  }
+
+
+}
+
+
+/* ==================================================
+   CLEAN ONLY TEMPORARY PACKAGE DATA
+================================================== */
+
+localStorage.removeItem(
+  "selectedPackage"
+);
+
+localStorage.removeItem(
+  "selectedService"
+);
+
+localStorage.removeItem(
+  "reviewedOrder"
+);
+
+</script>
+
+</body>
+</html>

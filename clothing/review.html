@@ -1,0 +1,2276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Order Review — Yemen Lebs</title>
+
+  <link rel="icon" href="data:,">
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f5f2ed;
+      --card: #ffffff;
+      --ink: #171717;
+      --muted: #777;
+      --line: #dedad5;
+      --soft: #faf9f7;
+      --accent: #7a2e2e;
+      --success: #2f6b45;
+      --danger: #9b3030;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* =====================================================
+       PAGE
+    ===================================================== */
+
+    .page {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 50px 24px 70px;
+    }
+
+    /* =====================================================
+       BRAND
+    ===================================================== */
+
+    .brand {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(34px, 5vw, 48px);
+      font-weight: 500;
+      letter-spacing: -1px;
+    }
+
+    .brand p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* =====================================================
+       PROGRESS STEPS
+    ===================================================== */
+
+    .steps {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 0 auto 45px;
+      flex-wrap: wrap;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #aaa;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .step-number {
+      width: 31px;
+      height: 31px;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .step.active {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .step.active .step-number {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+
+    .step.completed {
+      color: var(--success);
+    }
+
+    .step.completed .step-number {
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .arrow {
+      color: #bbb;
+      font-size: 14px;
+    }
+
+    /* =====================================================
+       MAIN CARD
+    ===================================================== */
+
+    .card {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 45px;
+      background: var(--card);
+      border: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .card-header {
+      margin-bottom: 35px;
+    }
+
+    .card-header h2 {
+      margin: 0 0 12px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(30px, 4vw, 42px);
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    .card-header p {
+      max-width: 650px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* =====================================================
+       SECTION
+    ===================================================== */
+
+    .section {
+      margin-top: 35px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-number {
+      width: 27px;
+      height: 27px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .section-title h3 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    /* =====================================================
+       ORDER SUMMARY
+    ===================================================== */
+
+    .order-box {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--soft);
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 25px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .summary-row:last-child {
+      border-bottom: 0;
+    }
+
+    .summary-row span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .summary-row strong {
+      text-align: right;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .summary-row.total {
+      background: #fff;
+    }
+
+    .summary-row.total span {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .summary-row.total strong {
+      color: var(--accent);
+      font-size: 26px;
+    }
+
+    /* =====================================================
+       CUSTOMER
+    ===================================================== */
+
+    .customer-box {
+      border: 1px solid var(--line);
+      background: var(--soft);
+    }
+
+    .customer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 25px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .customer-row:last-child {
+      border-bottom: 0;
+    }
+
+    .customer-row span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .customer-row strong {
+      max-width: 65%;
+      text-align: right;
+      font-size: 14px;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    /* =====================================================
+       DESIGN DETAILS GRID
+    ===================================================== */
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+
+    .detail-item {
+      min-width: 0;
+      padding: 20px;
+      background: var(--soft);
+    }
+
+    .detail-item.full {
+      grid-column: 1 / -1;
+    }
+
+    .detail-label {
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+    }
+
+    .detail-value {
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.65;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+
+    .detail-value.empty {
+      color: #999;
+      font-style: italic;
+    }
+
+    /* =====================================================
+       COLOR
+    ===================================================== */
+
+    .color-value {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .color-swatch {
+      width: 25px;
+      height: 25px;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: #eee;
+    }
+
+    /* =====================================================
+       REFERENCE IMAGE
+    ===================================================== */
+
+    .reference-box {
+      border: 1px solid var(--line);
+      background: var(--soft);
+      padding: 20px;
+    }
+
+    .reference-preview {
+      display: none;
+      width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+      background: #fff;
+      border: 1px solid var(--line);
+      cursor: zoom-in;
+    }
+
+    .reference-preview.show {
+      display: block;
+    }
+
+    .reference-empty {
+      padding: 35px 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .reference-file-name {
+      display: none;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      word-break: break-word;
+    }
+
+    .reference-file-name.show {
+      display: block;
+    }
+
+    /* =====================================================
+       NOTICE
+    ===================================================== */
+
+    .notice {
+      display: flex;
+      gap: 12px;
+      margin-top: 35px;
+      padding: 18px;
+      border: 1px solid #e1ddd7;
+      background: var(--bg);
+      color: #666;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .notice-icon {
+      width: 22px;
+      height: 22px;
+      border: 1px solid #aaa;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* =====================================================
+       BUTTONS
+    ===================================================== */
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .button {
+      min-height: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 22px;
+      border: 1px solid transparent;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+
+    .edit-button {
+      background: #eee;
+      border-color: #eee;
+      color: var(--ink);
+    }
+
+    .edit-button:hover {
+      background: #e1ded9;
+      border-color: #e1ded9;
+    }
+
+    .change-package {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .change-package:hover {
+      border-color: var(--ink);
+    }
+
+    .continue-button {
+      flex: 1;
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #fff;
+    }
+
+    .continue-button:hover:not(:disabled) {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .continue-button:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    /* =====================================================
+       MESSAGE
+    ===================================================== */
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      background: #f5f5f5;
+      color: #555;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      border-color: #e3caca;
+      background: #fff5f5;
+      color: var(--danger);
+    }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .footer {
+      max-width: 900px;
+      margin: 25px auto 0;
+      text-align: center;
+      color: #999;
+      font-size: 11px;
+      letter-spacing: .5px;
+    }
+
+    /* =====================================================
+       IMAGE MODAL
+    ===================================================== */
+
+    .image-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      background: rgba(0, 0, 0, .88);
+    }
+
+    .image-modal.open {
+      display: flex;
+    }
+
+    .modal-image {
+      max-width: 95vw;
+      max-height: 90vh;
+      object-fit: contain;
+    }
+
+    .modal-close {
+      position: fixed;
+      top: 20px;
+      right: 25px;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,255,255,.4);
+      background: transparent;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 750px) {
+
+      .page {
+        padding: 35px 15px 50px;
+      }
+
+      .card {
+        padding: 25px 18px;
+      }
+
+      .steps {
+        gap: 7px;
+        margin-bottom: 30px;
+      }
+
+      .step {
+        font-size: 10px;
+      }
+
+      .step-number {
+        width: 27px;
+        height: 27px;
+        font-size: 10px;
+      }
+
+      .arrow {
+        font-size: 11px;
+      }
+
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-item.full {
+        grid-column: auto;
+      }
+
+      .summary-row,
+      .customer-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 7px;
+      }
+
+      .summary-row strong,
+      .customer-row strong {
+        max-width: 100%;
+        text-align: left;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+    }
+
+    @media (max-width: 480px) {
+
+      .brand {
+        margin-bottom: 25px;
+      }
+
+      .brand h1 {
+        font-size: 32px;
+      }
+
+      .steps {
+        justify-content: flex-start;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 5px;
+      }
+
+      .step {
+        flex-shrink: 0;
+      }
+
+      .arrow {
+        flex-shrink: 0;
+      }
+
+      .card-header h2 {
+        font-size: 30px;
+      }
+
+      .summary-row,
+      .customer-row,
+      .detail-item,
+      .reference-box {
+        padding: 16px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <main class="page">
+
+    <!-- ===================================================
+         BRAND
+    ==================================================== -->
+
+    <header class="brand">
+
+      <h1>Yemen Lebs</h1>
+
+      <p>Order Review</p>
+
+    </header>
+
+
+    <!-- ===================================================
+         PROGRESS
+    ==================================================== -->
+
+    <div class="steps">
+
+      <div class="step completed">
+        <div class="step-number">1</div>
+        <span>Package</span>
+      </div>
+
+      <div class="arrow">→</div>
+
+      <div class="step completed">
+        <div class="step-number">2</div>
+        <span>Account</span>
+      </div>
+
+      <div class="arrow">→</div>
+
+      <div class="step active">
+        <div class="step-number">3</div>
+        <span>Design</span>
+      </div>
+
+      <div class="arrow">→</div>
+
+      <div class="step active">
+        <div class="step-number">4</div>
+        <span>Review</span>
+      </div>
+
+      <div class="arrow">→</div>
+
+      <div class="step">
+        <div class="step-number">5</div>
+        <span>Payment</span>
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================
+         MAIN REVIEW CARD
+    ==================================================== -->
+
+    <section class="card">
+
+      <div class="card-header">
+
+        <div class="eyebrow">
+          Step 4
+        </div>
+
+        <h2>
+          Review Your Order
+        </h2>
+
+        <p>
+          Please review all your package, account,
+          and design information carefully before
+          continuing to payment.
+        </p>
+
+      </div>
+
+
+      <!-- =================================================
+           01 ORDER SUMMARY
+      ================================================== -->
+
+      <div class="section">
+
+        <div class="section-title">
+
+          <div class="section-number">
+            01
+          </div>
+
+          <h3>
+            Order Summary
+          </h3>
+
+        </div>
+
+
+        <div class="order-box">
+
+          <div class="summary-row">
+
+            <span>
+              Package
+            </span>
+
+            <strong id="packageName">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="summary-row">
+
+            <span>
+              Design Type
+            </span>
+
+            <strong id="serviceName">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="summary-row total">
+
+            <span>
+              Total Price
+            </span>
+
+            <strong id="packagePrice">
+              $0.00
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           02 CUSTOMER ACCOUNT
+      ================================================== -->
+
+      <div class="section">
+
+        <div class="section-title">
+
+          <div class="section-number">
+            02
+          </div>
+
+          <h3>
+            Client Account
+          </h3>
+
+        </div>
+
+
+        <div class="customer-box">
+
+          <div class="customer-row">
+
+            <span>
+              Name
+            </span>
+
+            <strong id="customerName">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="customer-row">
+
+            <span>
+              Email
+            </span>
+
+            <strong id="customerEmail">
+              —
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           03 DESIGN DETAILS
+      ================================================== -->
+
+      <div class="section">
+
+        <div class="section-title">
+
+          <div class="section-number">
+            03
+          </div>
+
+          <h3>
+            Design Details
+          </h3>
+
+        </div>
+
+
+        <div class="details-grid">
+
+
+          <!-- DESIGN TYPE -->
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              Design Type
+            </div>
+
+            <div
+              class="detail-value"
+              id="designType"
+            >
+              —
+            </div>
+
+          </div>
+
+
+          <!-- STYLE -->
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              Style
+            </div>
+
+            <div
+              class="detail-value"
+              id="designStyle"
+            >
+              —
+            </div>
+
+          </div>
+
+
+          <!-- FILE TYPE -->
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              File Type
+            </div>
+
+            <div
+              class="detail-value"
+              id="fileType"
+            >
+              —
+            </div>
+
+          </div>
+
+
+          <!-- SIZE -->
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              Size
+            </div>
+
+            <div
+              class="detail-value"
+              id="designSize"
+            >
+              —
+            </div>
+
+          </div>
+
+
+          <!-- COLOR -->
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              Color
+            </div>
+
+            <div
+              class="detail-value color-value"
+            >
+
+              <span
+                class="color-swatch"
+                id="colorSwatch"
+              ></span>
+
+              <span id="designColor">
+                —
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <!-- QUANTITY -->
+
+          <div class="detail-item">
+
+            <div class="detail-label">
+              Quantity
+            </div>
+
+            <div
+              class="detail-value"
+              id="designQuantity"
+            >
+              —
+            </div>
+
+          </div>
+
+
+          <!-- DESCRIPTION -->
+
+          <div class="detail-item full">
+
+            <div class="detail-label">
+              Description
+            </div>
+
+            <div
+              class="detail-value"
+              id="designDescription"
+            >
+              —
+            </div>
+
+          </div>
+
+
+          <!-- ADDITIONAL INSTRUCTIONS -->
+
+          <div class="detail-item full">
+
+            <div class="detail-label">
+              Additional Instructions
+            </div>
+
+            <div
+              class="detail-value"
+              id="additionalInstructions"
+            >
+              —
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           04 REFERENCE IMAGE
+      ================================================== -->
+
+      <div class="section">
+
+        <div class="section-title">
+
+          <div class="section-number">
+            04
+          </div>
+
+          <h3>
+            Reference Image
+          </h3>
+
+        </div>
+
+
+        <div class="reference-box">
+
+          <img
+            id="referencePreview"
+            class="reference-preview"
+            alt="Reference image"
+          >
+
+          <div
+            id="referenceEmpty"
+            class="reference-empty"
+          >
+            No reference image was uploaded.
+          </div>
+
+          <div
+            id="referenceFileName"
+            class="reference-file-name"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           NOTICE
+      ================================================== -->
+
+      <div class="notice">
+
+        <div class="notice-icon">
+          i
+        </div>
+
+        <div>
+
+          Please make sure the information above is correct.
+          You can edit your design details before continuing
+          to payment. Your final order information will be
+          saved when you continue.
+
+        </div>
+
+      </div>
+
+
+      <!-- =================================================
+           BUTTONS
+      ================================================== -->
+
+      <div class="buttons">
+
+        <a
+          href="design-details.html"
+          class="button edit-button"
+        >
+          ← Edit Design
+        </a>
+
+
+        <a
+          href="index.html#packages"
+          class="button change-package"
+        >
+          Change Package
+        </a>
+
+
+        <button
+          type="button"
+          id="continueButton"
+          class="button continue-button"
+        >
+          Confirm &amp; Continue →
+        </button>
+
+      </div>
+
+
+      <!-- =================================================
+           MESSAGE
+      ================================================== -->
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+    </section>
+
+
+    <div class="footer">
+      © 2026 Yemen Lebs — Fashion Design Services
+    </div>
+
+  </main>
+
+
+  <!-- =====================================================
+       IMAGE MODAL
+  ====================================================== -->
+
+  <div
+    id="imageModal"
+    class="image-modal"
+  >
+
+    <button
+      type="button"
+      id="modalClose"
+      class="modal-close"
+      aria-label="Close image"
+    >
+      ×
+    </button>
+
+    <img
+      id="modalImage"
+      class="modal-image"
+      alt="Reference image"
+    >
+
+  </div>
+
+
+  <script>
+
+    /* =====================================================
+       BACKEND
+    ===================================================== */
+
+    const BACKEND_URL =
+      "http://localhost:5000";
+
+
+    /* =====================================================
+       OFFICIAL PACKAGE PRICES
+    ===================================================== */
+
+    const validPackages = {
+
+      Basic: 5,
+
+      Standard: 15,
+
+      Premium: 35
+
+    };
+
+
+    /* =====================================================
+       CHECK LOGIN
+    ===================================================== */
+
+    const token =
+      localStorage.getItem("token");
+
+
+    if (!token) {
+
+      window.location.replace(
+        "login.html"
+      );
+
+    }
+
+
+    /* =====================================================
+       READ USER
+    ===================================================== */
+
+    let user = {};
+
+    try {
+
+      user = JSON.parse(
+        localStorage.getItem("user") || "{}"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "❌ USER DATA ERROR:",
+        error
+      );
+
+      user = {};
+
+    }
+
+
+    /* =====================================================
+       READ PACKAGE
+    ===================================================== */
+
+    let selectedPackage = null;
+
+    try {
+
+      selectedPackage = JSON.parse(
+        localStorage.getItem(
+          "selectedPackage"
+        ) || "null"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "❌ PACKAGE DATA ERROR:",
+        error
+      );
+
+      selectedPackage = null;
+
+    }
+
+
+    /* =====================================================
+       READ DESIGN DETAILS
+    ===================================================== */
+
+    let designDetails = null;
+
+    try {
+
+      designDetails = JSON.parse(
+        localStorage.getItem(
+          "designDetails"
+        ) || "null"
+      );
+
+    } catch (error) {
+
+      console.error(
+        "❌ DESIGN DATA ERROR:",
+        error
+      );
+
+      designDetails = null;
+
+    }
+
+
+    /* =====================================================
+       READ REFERENCE IMAGE
+    ===================================================== */
+
+    const referenceImage =
+      localStorage.getItem(
+        "referenceImage"
+      ) || "";
+
+
+    const referenceImageName =
+      localStorage.getItem(
+        "referenceImageName"
+      ) || "";
+
+
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
+
+    const serviceName =
+      document.getElementById(
+        "serviceName"
+      );
+
+    const packageName =
+      document.getElementById(
+        "packageName"
+      );
+
+    const packagePrice =
+      document.getElementById(
+        "packagePrice"
+      );
+
+    const customerName =
+      document.getElementById(
+        "customerName"
+      );
+
+    const customerEmail =
+      document.getElementById(
+        "customerEmail"
+      );
+
+    const designType =
+      document.getElementById(
+        "designType"
+      );
+
+    const designDescription =
+      document.getElementById(
+        "designDescription"
+      );
+
+    const designStyle =
+      document.getElementById(
+        "designStyle"
+      );
+
+    const fileType =
+      document.getElementById(
+        "fileType"
+      );
+
+    const designColor =
+      document.getElementById(
+        "designColor"
+      );
+
+    const colorSwatch =
+      document.getElementById(
+        "colorSwatch"
+      );
+
+    const designSize =
+      document.getElementById(
+        "designSize"
+      );
+
+    const designQuantity =
+      document.getElementById(
+        "designQuantity"
+      );
+
+    const additionalInstructions =
+      document.getElementById(
+        "additionalInstructions"
+      );
+
+    const referencePreview =
+      document.getElementById(
+        "referencePreview"
+      );
+
+    const referenceEmpty =
+      document.getElementById(
+        "referenceEmpty"
+      );
+
+    const referenceFileName =
+      document.getElementById(
+        "referenceFileName"
+      );
+
+    const continueButton =
+      document.getElementById(
+        "continueButton"
+      );
+
+    const message =
+      document.getElementById(
+        "message"
+      );
+
+    const imageModal =
+      document.getElementById(
+        "imageModal"
+      );
+
+    const modalImage =
+      document.getElementById(
+        "modalImage"
+      );
+
+    const modalClose =
+      document.getElementById(
+        "modalClose"
+      );
+
+
+    /* =====================================================
+       HELPER
+    ===================================================== */
+
+    function displayValue(
+      element,
+      value,
+      fallback = "Not specified"
+    ) {
+
+      if (!element) return;
+
+      const cleanValue =
+        String(
+          value ?? ""
+        ).trim();
+
+      if (cleanValue) {
+
+        element.textContent =
+          cleanValue;
+
+        element.classList.remove(
+          "empty"
+        );
+
+      } else {
+
+        element.textContent =
+          fallback;
+
+        element.classList.add(
+          "empty"
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       MESSAGE
+    ===================================================== */
+
+    function showMessage(
+      text,
+      type = "error"
+    ) {
+
+      if (!message) return;
+
+      message.textContent =
+        text;
+
+      message.className =
+        "message show " +
+        type;
+
+    }
+
+
+    function clearMessage() {
+
+      if (!message) return;
+
+      message.textContent =
+        "";
+
+      message.className =
+        "message";
+
+    }
+
+
+    /* =====================================================
+       CUSTOMER NAME
+    ===================================================== */
+
+          const firstName = localStorage.getItem("firstName") || "";
+const lastName = localStorage.getItem("lastName") || "";
+const email = localStorage.getItem("email") || "";
+
+const fullName = `${firstName} ${lastName}`.trim();
+
+displayValue(
+  customerName,
+  fullName,
+  "Client"
+);
+
+displayValue(
+  customerEmail,
+  email,
+  "No email"
+);
+
+    /* =====================================================
+       PACKAGE VALIDATION
+    ===================================================== */
+
+    let packageIsValid =
+      false;
+
+
+    if (!selectedPackage) {
+
+      packageName.textContent =
+        "Not selected";
+
+      packagePrice.textContent =
+        "$0.00";
+
+    } else {
+
+      const name =
+        String(
+          selectedPackage.name || ""
+        ).trim();
+
+
+      const officialPrice =
+        validPackages[name];
+
+
+      if (
+        officialPrice === undefined
+      ) {
+
+        packageName.textContent =
+          "Invalid package";
+
+        packagePrice.textContent =
+          "$0.00";
+
+        showMessage(
+          "Invalid package selected. Please return to the package page and select Basic, Standard, or Premium."
+        );
+
+      } else {
+
+        packageIsValid =
+          true;
+
+
+        selectedPackage = {
+
+          name:
+            name,
+
+          price:
+            officialPrice
+
+        };
+
+
+        /* Save canonical package */
+
+        localStorage.setItem(
+          "selectedPackage",
+          JSON.stringify(
+            selectedPackage
+          )
+        );
+
+
+        packageName.textContent =
+          name;
+
+
+        packagePrice.textContent =
+          "$" +
+          officialPrice.toFixed(2);
+
+
+        console.log(
+          "✅ REVIEW PACKAGE:",
+          selectedPackage
+        );
+
+      }
+
+    }
+
+
+    /* =====================================================
+       DESIGN DETAILS
+    ===================================================== */
+
+    if (!designDetails) {
+
+      showMessage(
+        "Design details are missing. Please go back to Design Details and complete the form."
+      );
+
+    } else {
+
+      /* ===============================================
+         DESIGN TYPE
+      =============================================== */
+
+      displayValue(
+        designType,
+        designDetails.designType
+      );
+
+
+      /* ===============================================
+         SERVICE / ORDER SUMMARY
+      =============================================== */
+
+      displayValue(
+        serviceName,
+        designDetails.designType,
+        "Fashion Design"
+      );
+
+
+      /* ===============================================
+         DESCRIPTION
+      =============================================== */
+
+      displayValue(
+        designDescription,
+        designDetails.description
+      );
+
+
+      /* ===============================================
+         STYLE
+      =============================================== */
+
+      displayValue(
+        designStyle,
+        designDetails.patternStyle ||
+        designDetails.style
+      );
+
+
+      /* ===============================================
+         FILE TYPE
+      =============================================== */
+
+      displayValue(
+        fileType,
+        designDetails.fileType
+      );
+
+
+      /* ===============================================
+         COLOR
+      =============================================== */
+
+      const savedColor =
+        designDetails.color || "";
+
+
+      const savedColorName =
+        designDetails.colorName || "";
+
+
+      let colorText =
+        "";
+
+
+      if (
+        savedColorName &&
+        savedColor
+      ) {
+
+        colorText =
+          savedColorName +
+          " (" +
+          savedColor +
+          ")";
+
+      } else if (
+        savedColorName
+      ) {
+
+        colorText =
+          savedColorName;
+
+      } else if (
+        savedColor
+      ) {
+
+        colorText =
+          savedColor;
+
+      }
+
+
+      displayValue(
+        designColor,
+        colorText
+      );
+
+
+      /* ===============================================
+         COLOR SWATCH
+      =============================================== */
+
+      if (
+        savedColor &&
+        /^#[0-9A-F]{3,8}$/i.test(
+          savedColor
+        )
+      ) {
+
+        colorSwatch.style.background =
+          savedColor;
+
+      } else {
+
+        colorSwatch.style.background =
+          "#eeeeee";
+
+      }
+
+
+      /* ===============================================
+         SIZE
+      =============================================== */
+
+      displayValue(
+        designSize,
+        designDetails.size
+      );
+
+
+      /* ===============================================
+         QUANTITY
+      =============================================== */
+
+      const quantity =
+        Number(
+          designDetails.quantity
+        );
+
+
+      if (
+        Number.isFinite(quantity) &&
+        quantity > 0
+      ) {
+
+        designQuantity.textContent =
+          quantity;
+
+        designQuantity.classList.remove(
+          "empty"
+        );
+
+      } else {
+
+        displayValue(
+          designQuantity,
+          "",
+          "1"
+        );
+
+      }
+
+
+      /* ===============================================
+         ADDITIONAL INSTRUCTIONS
+      =============================================== */
+
+      displayValue(
+        additionalInstructions,
+        designDetails.additionalInstructions
+      );
+
+    }
+
+
+    /* =====================================================
+       REFERENCE IMAGE
+    ===================================================== */
+
+    if (referenceImage) {
+
+      referencePreview.src =
+        referenceImage;
+
+      referencePreview.classList.add(
+        "show"
+      );
+
+      referenceEmpty.style.display =
+        "none";
+
+
+      if (referenceImageName) {
+
+        referenceFileName.textContent =
+          "File: " +
+          referenceImageName;
+
+        referenceFileName.classList.add(
+          "show"
+        );
+
+      }
+
+
+      referencePreview.addEventListener(
+        "error",
+        function () {
+
+          referencePreview.classList.remove(
+            "show"
+          );
+
+          referenceEmpty.style.display =
+            "block";
+
+          referenceEmpty.textContent =
+            "Reference image could not be displayed.";
+
+          console.error(
+            "❌ REFERENCE IMAGE FAILED"
+          );
+
+        }
+      );
+
+
+    } else {
+
+      referencePreview.classList.remove(
+        "show"
+      );
+
+      referenceEmpty.style.display =
+        "block";
+
+    }
+
+
+    /* =====================================================
+       IMAGE MODAL
+    ===================================================== */
+
+    function openImageModal() {
+
+      if (!referenceImage) return;
+
+      modalImage.src =
+        referenceImage;
+
+      imageModal.classList.add(
+        "open"
+      );
+
+      document.body.style.overflow =
+        "hidden";
+
+    }
+
+
+    function closeImageModal() {
+
+      imageModal.classList.remove(
+        "open"
+      );
+
+      modalImage.src =
+        "";
+
+      document.body.style.overflow =
+        "";
+
+    }
+
+
+    referencePreview.addEventListener(
+      "click",
+      openImageModal
+    );
+
+
+    modalClose.addEventListener(
+      "click",
+      closeImageModal
+    );
+
+
+    imageModal.addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          event.target === imageModal
+        ) {
+
+          closeImageModal();
+
+        }
+
+      }
+    );
+
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key === "Escape"
+        ) {
+
+          closeImageModal();
+
+        }
+
+      }
+    );
+
+
+    /* =====================================================
+       VALIDATE BEFORE PAYMENT
+    ===================================================== */
+
+    function validateOrder() {
+
+      if (!token) {
+
+        showMessage(
+          "Your account session has expired. Please log in again."
+        );
+
+        return false;
+
+      }
+
+
+      if (!packageIsValid) {
+
+        showMessage(
+          "Please select a valid package: Basic, Standard, or Premium."
+        );
+
+        return false;
+
+      }
+
+
+      if (!designDetails) {
+
+        showMessage(
+          "Design details are missing. Please go back and complete the Design Details form."
+        );
+
+        return false;
+
+      }
+
+
+      const requiredFields = [
+
+        {
+          value:
+            designDetails.designType,
+          name:
+            "Design Type"
+        },
+
+        {
+          value:
+            designDetails.description,
+          name:
+            "Description"
+        },
+
+        {
+          value:
+            designDetails.patternStyle ||
+            designDetails.style,
+          name:
+            "Style"
+        },
+
+        {
+          value:
+            designDetails.fileType,
+          name:
+            "File Type"
+        },
+
+        {
+          value:
+            designDetails.size,
+          name:
+            "Size"
+        }
+
+      ];
+
+
+      for (
+        const field
+        of requiredFields
+      ) {
+
+        if (
+          !String(
+            field.value || ""
+          ).trim()
+        ) {
+
+          showMessage(
+            field.name +
+            " is missing. Please go back and complete the Design Details form."
+          );
+
+          return false;
+
+        }
+
+      }
+
+
+      return true;
+
+    }
+
+
+    /* =====================================================
+       CONFIRM & CONTINUE
+    ===================================================== */
+
+    continueButton.addEventListener(
+      "click",
+      function() {
+
+        clearMessage();
+
+
+        if (
+          !validateOrder()
+        ) {
+
+          return;
+
+        }
+
+
+        /* ===============================================
+           FINAL REVIEW ORDER
+        =============================================== */
+
+        const quantity =
+          Number(
+            designDetails.quantity || 1
+          );
+
+
+        const reviewedOrder = {
+
+          package:
+            selectedPackage.name,
+
+          price:
+            selectedPackage.price,
+
+          designType:
+            designDetails.designType || "",
+
+          description:
+            designDetails.description || "",
+
+          style:
+            designDetails.patternStyle ||
+            designDetails.style ||
+            "",
+
+          patternStyle:
+            designDetails.patternStyle || "",
+
+          fileType:
+            designDetails.fileType || "",
+
+          color:
+            designDetails.color || "",
+
+          colorName:
+            designDetails.colorName || "",
+
+          size:
+            designDetails.size || "",
+
+          quantity:
+            Number.isFinite(quantity)
+              ? quantity
+              : 1,
+
+          referenceImage:
+            referenceImage || "",
+
+          referenceImageName:
+            referenceImageName || "",
+
+          additionalInstructions:
+            designDetails.additionalInstructions ||
+            "",
+
+          customer: {
+
+            name:
+              customerName.textContent,
+
+            email:
+              customerEmail.textContent
+
+          },
+
+          savedAt:
+            new Date().toISOString()
+
+        };
+
+
+        /* ===============================================
+           SAVE COMPLETE ORDER
+        =============================================== */
+
+        localStorage.setItem(
+          "reviewedOrder",
+          JSON.stringify(
+            reviewedOrder
+          )
+        );
+
+
+        console.log(
+          "✅ COMPLETE REVIEW ORDER SAVED:",
+          reviewedOrder
+        );
+
+
+        /* ===============================================
+           BUTTON STATE
+        =============================================== */
+
+        continueButton.disabled =
+          true;
+
+        continueButton.textContent =
+          "Opening Payment...";
+
+
+        /* ===============================================
+           GO PAYMENT
+        =============================================== */
+
+        setTimeout(
+          function() {
+
+            window.location.href =
+              "payment.html";
+
+          },
+          300
+        );
+
+      }
+    );
+
+
+    /* =====================================================
+       STARTUP LOG
+    ===================================================== */
+
+    console.log(
+      "========================================"
+    );
+
+    console.log(
+      "✅ REVIEW PAGE READY"
+    );
+
+    console.log(
+      "📦 PACKAGE:",
+      selectedPackage
+    );
+
+    console.log(
+      "🎨 DESIGN DETAILS:",
+      designDetails
+    );
+
+    console.log(
+      "🖼️ REFERENCE IMAGE:",
+      referenceImage
+        ? "YES"
+        : "NO"
+    );
+
+    console.log(
+      "👤 USER:",
+      user
+    );
+
+    console.log(
+      "========================================"
+    );
+
+  </script>
+
+</body>
+
+</html>

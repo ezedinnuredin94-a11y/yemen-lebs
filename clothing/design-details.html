@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Design Details — Yemen Lebs</title>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    :root {
+      --bg: #f8f7f3;
+      --card: #ffffff;
+      --ink: #171717;
+      --muted: #77736d;
+      --line: #ddd9d0;
+      --accent: #7a2e2e;
+      --accent-dark: #5e2020;
+      --soft: #f1eee8;
+      --success: #2e6b45;
+      --danger: #a33a3a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Inter", sans-serif;
+    }
+
+    /* =========================================
+       HEADER
+    ========================================= */
+
+    .topbar {
+      height: 76px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.96);
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 6%;
+
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .logo {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+      font-style: italic;
+      color: var(--ink);
+    }
+
+    .back-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      transition: .2s;
+    }
+
+    .back-link:hover {
+      color: var(--accent);
+    }
+
+    /* =========================================
+       PROGRESS
+    ========================================= */
+
+    .progress-wrapper {
+      width: min(1050px, 92%);
+      margin: 38px auto 0;
+    }
+
+    .progress {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      position: relative;
+    }
+
+    .progress::before {
+      content: "";
+      position: absolute;
+
+      top: 15px;
+      left: 10%;
+      right: 10%;
+
+      height: 1px;
+      background: var(--line);
+
+      z-index: 0;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-number {
+      width: 31px;
+      height: 31px;
+
+      border-radius: 50%;
+
+      background: var(--bg);
+      border: 1px solid var(--line);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin: auto;
+
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .step-label {
+      margin-top: 10px;
+
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+
+      color: var(--muted);
+    }
+
+    .step.active .step-number {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .step.active .step-label {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .step.done .step-number {
+      background: var(--ink);
+      color: white;
+      border-color: var(--ink);
+    }
+
+    /* =========================================
+       MAIN
+    ========================================= */
+
+    .page {
+      width: min(1050px, 92%);
+      margin: 48px auto 80px;
+    }
+
+    .heading {
+      margin-bottom: 30px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+
+      font-size: 10px;
+      font-weight: 700;
+
+      letter-spacing: .2em;
+      text-transform: uppercase;
+
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: "Playfair Display", serif;
+
+      font-size: clamp(36px, 5vw, 54px);
+      font-weight: 400;
+
+      line-height: 1;
+
+      margin-bottom: 12px;
+    }
+
+    .intro {
+      max-width: 650px;
+
+      color: var(--muted);
+
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* =========================================
+       PACKAGE CARD
+    ========================================= */
+
+    .package-card {
+      background: var(--ink);
+      color: white;
+
+      padding: 22px 25px;
+
+      margin-bottom: 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+    }
+
+    .package-label {
+      color: #aaa;
+
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+
+      margin-bottom: 5px;
+    }
+
+    .package-name {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+    }
+
+    .package-price {
+      font-size: 19px;
+      font-weight: 600;
+    }
+
+    /* =========================================
+       FORM CARD
+    ========================================= */
+
+    .form-card {
+      background: var(--card);
+
+      border: 1px solid var(--line);
+
+      padding: 42px;
+    }
+
+    .section {
+      margin-bottom: 42px;
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-family: "Playfair Display", serif;
+
+      font-size: 25px;
+      font-weight: 400;
+
+      margin-bottom: 7px;
+    }
+
+    .section-description {
+      color: var(--muted);
+
+      font-size: 12px;
+
+      margin-bottom: 25px;
+
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+
+      grid-template-columns: repeat(2, 1fr);
+
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 20px;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      font-size: 10px;
+      font-weight: 700;
+
+      text-transform: uppercase;
+
+      letter-spacing: .09em;
+    }
+
+    .required {
+      color: var(--accent);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+
+      border: 1px solid var(--line);
+
+      background: #fbfaf7;
+
+      color: var(--ink);
+
+      font-family: "Inter", sans-serif;
+
+      font-size: 13px;
+
+      outline: none;
+
+      transition: .2s;
+    }
+
+    input,
+    select {
+      height: 50px;
+
+      padding: 0 14px;
+    }
+
+    textarea {
+      min-height: 130px;
+
+      padding: 14px;
+
+      resize: vertical;
+
+      line-height: 1.6;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+
+      box-shadow:
+        0 0 0 3px rgba(122,46,46,.07);
+
+      background: white;
+    }
+
+    /* =========================================
+       DESIGN TYPE
+    ========================================= */
+
+    .design-types {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 12px;
+    }
+
+    .design-type input {
+      display: none;
+    }
+
+    .design-type label {
+      min-height: 76px;
+
+      margin: 0;
+
+      border: 1px solid var(--line);
+
+      padding: 15px;
+
+      cursor: pointer;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      transition: .2s;
+    }
+
+    .design-type label strong {
+      font-size: 13px;
+
+      margin-bottom: 4px;
+
+      text-transform: none;
+
+      letter-spacing: 0;
+    }
+
+    .design-type label span {
+      color: var(--muted);
+
+      font-size: 10px;
+      font-weight: 400;
+
+      text-transform: none;
+
+      letter-spacing: 0;
+    }
+
+    .design-type input:checked + label {
+      border-color: var(--accent);
+
+      background: #faf3f1;
+
+      box-shadow:
+        inset 0 0 0 1px var(--accent);
+    }
+
+    /* =========================================
+       COLOR
+    ========================================= */
+
+    .color-row {
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+    }
+
+    .color-row input[type="color"] {
+      width: 58px;
+      height: 50px;
+
+      padding: 4px;
+
+      cursor: pointer;
+    }
+
+    /* =========================================
+       FILE UPLOAD
+    ========================================= */
+
+    .upload-box {
+      border: 1px dashed #bbb5aa;
+
+      background: #fbfaf7;
+
+      min-height: 170px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      padding: 25px;
+
+      cursor: pointer;
+
+      transition: .2s;
+    }
+
+    .upload-box:hover {
+      border-color: var(--accent);
+
+      background: #faf3f1;
+    }
+
+    .upload-icon {
+      font-size: 28px;
+
+      margin-bottom: 10px;
+    }
+
+    .upload-title {
+      font-size: 13px;
+
+      font-weight: 600;
+
+      margin-bottom: 6px;
+    }
+
+    .upload-text {
+      color: var(--muted);
+
+      font-size: 11px;
+
+      line-height: 1.5;
+    }
+
+    .upload-box input {
+      display: none;
+    }
+
+    .file-name {
+      margin-top: 10px;
+
+      color: var(--success);
+
+      font-size: 12px;
+
+      text-align: center;
+
+      word-break: break-word;
+    }
+
+    /* =========================================
+       IMAGE PREVIEW
+    ========================================= */
+
+    .image-preview {
+      display: none;
+
+      margin-top: 15px;
+
+      border: 1px solid var(--line);
+
+      background: #fff;
+
+      padding: 10px;
+
+      text-align: center;
+    }
+
+    .image-preview img {
+      max-width: 100%;
+      max-height: 260px;
+
+      display: block;
+
+      margin: auto;
+    }
+
+    /* =========================================
+       BUTTONS
+    ========================================= */
+
+    .actions {
+      border-top: 1px solid var(--line);
+
+      padding-top: 28px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+    }
+
+    .secondary-button,
+    .primary-button {
+      min-height: 52px;
+
+      padding: 0 25px;
+
+      font-family: "Inter", sans-serif;
+
+      font-size: 11px;
+      font-weight: 700;
+
+      text-transform: uppercase;
+
+      letter-spacing: .09em;
+
+      cursor: pointer;
+
+      transition: .25s;
+    }
+
+    .secondary-button {
+      background: white;
+
+      border: 1px solid var(--line);
+
+      color: var(--ink);
+    }
+
+    .secondary-button:hover {
+      border-color: var(--ink);
+    }
+
+    .primary-button {
+      background: var(--ink);
+
+      color: white;
+
+      border: 1px solid var(--ink);
+
+      min-width: 210px;
+    }
+
+    .primary-button:hover {
+      background: var(--accent);
+
+      border-color: var(--accent);
+    }
+
+    .primary-button:disabled {
+      opacity: .6;
+
+      cursor: not-allowed;
+    }
+
+    .status {
+      text-align: center;
+
+      min-height: 20px;
+
+      margin-top: 18px;
+
+      font-size: 12px;
+    }
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+
+    @media (max-width: 760px) {
+
+      .topbar {
+        padding: 0 5%;
+      }
+
+      .progress-wrapper {
+        width: 94%;
+      }
+
+      .progress::before {
+        left: 8%;
+        right: 8%;
+      }
+
+      .step-label {
+        font-size: 8px;
+      }
+
+      .page {
+        margin-top: 35px;
+      }
+
+      .form-card {
+        padding: 28px 20px;
+      }
+
+      .grid,
+      .grid-3,
+      .design-types {
+        grid-template-columns: 1fr;
+      }
+
+      .package-card {
+        align-items: flex-start;
+
+        flex-direction: column;
+      }
+
+      .actions {
+        flex-direction: column-reverse;
+      }
+
+      .primary-button,
+      .secondary-button {
+        width: 100%;
+      }
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================================
+       HEADER
+  ========================================= -->
+
+  <header class="topbar">
+
+    <div class="logo">
+      Yemen Lebs
+    </div>
+
+    <a
+      href="index.html"
+      class="back-link"
+    >
+      ← Back to Home
+    </a>
+
+  </header>
+
+
+  <!-- =========================================
+       PROGRESS
+  ========================================= -->
+
+  <div class="progress-wrapper">
+
+    <div class="progress">
+
+      <div class="step done">
+        <div class="step-number">✓</div>
+        <div class="step-label">Package</div>
+      </div>
+
+      <div class="step done">
+        <div class="step-number">✓</div>
+        <div class="step-label">Account</div>
+      </div>
+
+      <div class="step active">
+        <div class="step-number">3</div>
+        <div class="step-label">Design</div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-label">Review</div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">5</div>
+        <div class="step-label">Payment</div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       MAIN
+  ========================================= -->
+
+  <main class="page">
+
+
+    <div class="heading">
+
+      <div class="eyebrow">
+        Step 03 — Design Details
+      </div>
+
+      <h1>
+        Tell us about<br>
+        your design.
+      </h1>
+
+      <p class="intro">
+        Provide the details we need to create your
+        design accurately. The more information you
+        provide, the better we can understand your vision.
+      </p>
+
+    </div>
+
+
+    <!-- =========================================
+         PACKAGE
+    ========================================= -->
+
+    <div class="package-card">
+
+      <div>
+
+        <div class="package-label">
+          Selected Package
+        </div>
+
+        <div
+          class="package-name"
+          id="packageName"
+        >
+          Loading...
+        </div>
+
+      </div>
+
+      <div
+        class="package-price"
+        id="packagePrice"
+      >
+        $0.00
+      </div>
+
+    </div>
+
+
+    <!-- =========================================
+         FORM
+    ========================================= -->
+
+    <form
+      id="designForm"
+      class="form-card"
+    >
+
+
+      <!-- DESIGN TYPE -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+          What are you designing?
+        </h2>
+
+        <p class="section-description">
+          Select the type that best describes your project.
+        </p>
+
+
+        <div class="design-types">
+
+
+          <div class="design-type">
+
+            <input
+              type="radio"
+              id="pattern"
+              name="designType"
+              value="Pattern Design"
+              required
+            >
+
+            <label for="pattern">
+
+              <strong>
+                Pattern Design
+              </strong>
+
+              <span>
+                Repeating or textile pattern
+              </span>
+
+            </label>
+
+          </div>
+
+
+          <div class="design-type">
+
+            <input
+              type="radio"
+              id="illustrator"
+              name="designType"
+              value="Adobe Illustrator Design"
+            >
+
+            <label for="illustrator">
+
+              <strong>
+                Adobe Illustrator
+              </stron
+
+            </label>
+
+          </div>
+
+
+          <div class="design-type">
+
+            <input
+              type="radio"
+              id="tshirt"
+              name="designType"
+              value="T-Shirt Design"
+            >
+
+            <label for="tshirt">
+
+              <strong>
+                Tach pack
+              </strong>
+
+              <span>
+                Custom apparel graphic
+              </span>
+
+            </label>
+
+          </div>
+
+          <div class="design-type">
+
+            <input
+              type="radio"
+              id="clothing"
+              name="designType"
+              value="Clothing Design"
+            >
+
+            <label for="clothing">
+
+              <strong>
+                Clothing Design
+              </strong>
+
+              <span>
+                Fashion and garment design
+              </span>
+
+            </label>
+
+          </div>
+
+
+          <div class="design-type">
+
+            <input
+              type="radio"
+              id="logo"
+              name="designType"
+              value="Logo Design"
+            >
+
+            <label for="logo">
+
+              <strong>
+                Logo Design
+              </strong>
+
+              <span>
+                Brand identity and logo
+              </span>
+
+            </label>
+
+          </div>
+
+
+          <div class="design-type">
+
+            <input
+              type="radio"
+              id="custom"
+              name="designType"
+              value="Custom Design"
+            >
+
+            <label for="custom">
+
+              <strong>
+                Custom Design
+              </strong>
+
+              <span>
+                Something unique
+              </span>
+
+            </label>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+      <!-- DESIGN INFORMATION -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+          Design information
+        </h2>
+
+        <p class="section-description">
+          Describe the idea, style, and purpose of your design.
+        </p>
+
+
+        <div class="field">
+
+          <label for="description">
+            Design Description
+            <span class="required">*</span>
+          </label>
+
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Example: I need a modern African-inspired pattern for a T-shirt. The design should feel clean, premium, and suitable for printing."
+            required
+          ></textarea>
+
+        </div>
+
+
+        <div class="grid">
+
+
+          <div class="field">
+
+            <label for="patternStyle">
+              Pattern / Style
+            </label>
+
+            <select
+              id="patternStyle"
+              name="patternStyle"
+            >
+
+              <option value="">
+                Select style
+              </option>
+
+              <option value="Minimal">
+                Minimal
+              </option>
+
+              <option value="Geometric">
+                Geometric
+              </option>
+
+              <option value="Floral">
+                Floral
+              </option>
+
+              <option value="Traditional">
+                Traditional
+              </option>
+
+              <option value="African Inspired">
+                African Inspired
+              </option>
+
+              <option value="Luxury">
+                Luxury
+              </option>
+
+              <option value="Modern">
+                Modern
+              </option>
+
+              <option value="Custom">
+                Custom
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="fileType">
+              Preferred File Type
+            </label>
+
+            <select
+              id="fileType"
+              name="fileType"
+            >
+
+              <option value="">
+                Select file type
+              </option>
+
+              <option value="AI">
+                Adobe Illustrator (.AI)
+              </option>
+
+              <option value="SVG">
+                SVG
+              </option>
+
+              <option value="EPS">
+                EPS
+              </option>
+
+              <option value="PDF">
+                PDF
+              </option>
+
+              <option value="PNG">
+                PNG
+              </option>
+
+              <option value="JPG">
+                JPG
+              </option>
+
+              <option value="AI + PNG">
+                AI + PNG
+              </option>
+
+            </select>
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+      <!-- COLOR / SIZE / QUANTITY -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+          Color, size & quantity
+        </h2>
+
+        <p class="section-description">
+          Tell us how the final design should be prepared.
+        </p>
+
+
+        <div class="grid-3">
+
+
+          <div class="field">
+
+            <label for="color">
+              Main Color
+            </label>
+
+            <div class="color-row">
+
+              <input
+                type="color"
+                id="color"
+                name="color"
+                value="#7A2E2E"
+              >
+
+              <input
+                type="text"
+                id="colorName"
+                name="colorName"
+                placeholder="Color name"
+              >
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="size">
+              Size
+              <span class="required">*</span>
+            </label>
+
+            <select
+              id="size"
+              name="size"
+              required
+            >
+
+              <option value="">
+                Select size
+              </option>
+
+              <option value="XS">XS</option>
+              <option value="S">S</option>
+              <option value="M">M</option>
+              <option value="L">L</option>
+              <option value="XL">XL</option>
+              <option value="XXL">XXL</option>
+              <option value="XXXL">XXXL</option>
+
+              <option value="Custom">
+                Custom Size
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="quantity">
+              Quantity
+              <span class="required">*</span>
+            </label>
+
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              min="1"
+              max="999"
+              value="1"
+              required
+            >
+
+          </div>
+
+
+        </div>
+
+      </section>
+
+
+      <!-- REFERENCE IMAGE -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+          Reference image
+        </h2>
+
+        <p class="section-description">
+          Upload an image, sketch, screenshot, or existing
+          design that can help us understand your idea.
+        </p>
+
+
+        <label
+          class="upload-box"
+          for="referenceImage"
+        >
+
+          <input
+            type="file"
+            id="referenceImage"
+            name="referenceImage"
+            accept="image/png,image/jpeg,image/webp"
+          >
+
+          <div>
+
+            <div class="upload-icon">
+              ↑
+            </div>
+
+            <div class="upload-title">
+              Upload Reference Image
+            </div>
+
+            <div class="upload-text">
+              PNG, JPG or WEBP<br>
+              Maximum size: 10MB
+            </div>
+
+          </div>
+
+        </label>
+
+
+        <div
+          id="fileName"
+          class="file-name"
+        ></div>
+
+
+        <div
+          id="imagePreview"
+          class="image-preview"
+        >
+
+          <img
+            id="previewImage"
+            src=""
+            alt="Reference preview"
+          >
+
+        </div>
+
+
+      </section>
+
+
+      <!-- ADDITIONAL INSTRUCTIONS -->
+
+      <section class="section">
+
+        <h2 class="section-title">
+          Additional instructions
+        </h2>
+
+        <p class="section-description">
+          Anything else our designer should know?
+        </p>
+
+
+        <div class="field">
+
+          <label for="instructions">
+            Instructions
+          </label>
+
+          <textarea
+            id="instructions"
+            name="instructions"
+            placeholder="Tell us about special requirements, placement, printing method, measurements, inspiration, or anything else..."
+          ></textarea>
+
+        </div>
+
+      </section>
+
+
+      <!-- ACTIONS -->
+
+      <div class="actions">
+
+        <button
+          type="button"
+          class="secondary-button"
+          onclick="goBack()"
+        >
+          ← Back
+        </button>
+
+
+        <button
+          type="submit"
+          id="continueButton"
+          class="primary-button"
+        >
+          Continue to Review →
+        </button>
+
+      </div>
+
+
+      <div
+        id="status"
+        class="status"
+      ></div>
+
+
+    </form>
+
+  </main>
+
+<script>
+
+/* =========================================
+   BASIC DATA CHECK
+========================================= */
+
+const selectedPackage = JSON.parse(
+  localStorage.getItem("selectedPackage") || "null"
+);
+
+const token = localStorage.getItem("token");
+
+
+/* =========================================
+   VALID PACKAGES
+========================================= */
+
+const validPackages = {
+  Basic: 5,
+  Standard: 15,
+  Premium: 35
+};
+
+
+/* =========================================
+   PACKAGE CHECK
+========================================= */
+
+if (!selectedPackage) {
+
+  alert(
+    "Please select Basic, Standard, or Premium first."
+  );
+
+  window.location.replace(
+    "index.html#packages"
+  );
+
+} else {
+
+  const packageName =
+    String(selectedPackage.name || "").trim();
+
+  if (!Object.prototype.hasOwnProperty.call(validPackages, packageName)) {
+
+    alert(
+      "Invalid package. Please select Basic, Standard, or Premium."
+    );
+
+    localStorage.removeItem("selectedPackage");
+
+    window.location.replace(
+      "index.html#packages"
+    );
+
+  } else {
+
+    /* Always use the official price */
+    const packagePrice =
+      validPackages[packageName];
+
+    /* =========================================
+       DISPLAY PACKAGE
+    ========================================= */
+
+    document.getElementById(
+      "packageName"
+    ).textContent = packageName;
+
+    document.getElementById(
+      "packagePrice"
+    ).textContent =
+      "$" + packagePrice.toFixed(2);
+
+
+    /* =========================================
+       SAVE VERIFIED PACKAGE
+    ========================================= */
+
+    localStorage.setItem(
+      "selectedPackage",
+      JSON.stringify({
+        name: packageName,
+        price: packagePrice
+      })
+    );
+
+
+    console.log(
+      "✅ SELECTED PACKAGE:",
+      packageName,
+      "$" + packagePrice
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   LOGIN CHECK
+========================================= */
+
+if (!token) {
+
+  alert(
+    "Please login to continue."
+  );
+
+  window.location.replace(
+    "login.html"
+  );
+
+}
+
+
+/* =========================================
+   EXISTING DESIGN DATA
+========================================= */
+
+const savedDesign = JSON.parse(
+  localStorage.getItem("designDetails") || "null"
+);
+
+if (savedDesign) {
+
+  const savedRadio = document.querySelector(
+    'input[name="designType"][value="' +
+    savedDesign.designType +
+    '"]'
+  );
+
+  if (savedRadio) {
+    savedRadio.checked = true;
+  }
+
+
+  document.getElementById(
+    "description"
+  ).value =
+    savedDesign.description || "";
+
+
+  document.getElementById(
+    "patternStyle"
+  ).value =
+    savedDesign.patternStyle || "";
+
+
+  document.getElementById(
+    "fileType"
+  ).value =
+    savedDesign.fileType || "";
+
+
+  document.getElementById(
+    "color"
+  ).value =
+    savedDesign.color || "#7A2E2E";
+
+
+  document.getElementById(
+    "colorName"
+  ).value =
+    savedDesign.colorName || "";
+
+
+  document.getElementById(
+    "size"
+  ).value =
+    savedDesign.size || "";
+
+
+  document.getElementById(
+    "quantity"
+  ).value =
+    savedDesign.quantity || 1;
+
+
+  document.getElementById(
+    "instructions"
+  ).value =
+    savedDesign.additionalInstructions || "";
+
+}
+
+
+/* =========================================
+   REFERENCE IMAGE ELEMENTS
+========================================= */
+
+const referenceImage =
+  document.getElementById("referenceImage");
+
+const fileName =
+  document.getElementById("fileName");
+
+const imagePreview =
+  document.getElementById("imagePreview");
+
+const previewImage =
+  document.getElementById("previewImage");
+
+
+/* =========================================
+   EXISTING IMAGE PREVIEW
+========================================= */
+
+const savedImage =
+  localStorage.getItem("referenceImage");
+
+const savedImageName =
+  localStorage.getItem("referenceImageName");
+
+if (savedImage) {
+
+  previewImage.src = savedImage;
+
+  imagePreview.style.display = "block";
+
+  if (savedImageName) {
+
+    fileName.textContent =
+      "✓ " + savedImageName;
+
+    fileName.style.color =
+      "var(--success)";
+  }
+
+}
+
+
+/* =========================================
+   NEW IMAGE UPLOAD
+========================================= */
+
+referenceImage.addEventListener(
+  "change",
+  function () {
+
+    if (
+      !referenceImage.files ||
+      !referenceImage.files.length
+    ) {
+      return;
+    }
+
+
+    const file =
+      referenceImage.files[0];
+
+
+    /* -----------------------------------------
+       MAXIMUM 10MB
+    ----------------------------------------- */
+
+    if (
+      file.size >
+      10 * 1024 * 1024
+    ) {
+
+      fileName.textContent =
+        "❌ File is larger than 10MB.";
+
+      fileName.style.color =
+        "var(--danger)";
+
+      referenceImage.value = "";
+
+      imagePreview.style.display =
+        "none";
+
+      previewImage.src = "";
+
+      return;
+    }
+
+
+    /* -----------------------------------------
+       FILE TYPE
+    ----------------------------------------- */
+
+    const allowedTypes = [
+      "image/png",
+      "image/jpeg",
+      "image/webp"
+    ];
+
+    if (
+      !allowedTypes.includes(file.type)
+    ) {
+
+      fileName.textContent =
+        "❌ Only PNG, JPG or WEBP files are allowed.";
+
+      fileName.style.color =
+        "var(--danger)";
+
+      referenceImage.value = "";
+
+      imagePreview.style.display =
+        "none";
+
+      previewImage.src = "";
+
+      return;
+    }
+
+
+    /* -----------------------------------------
+       SHOW FILE NAME
+    ----------------------------------------- */
+
+    fileName.textContent =
+      "✓ " + file.name;
+
+    fileName.style.color =
+      "var(--success)";
+
+
+    /* -----------------------------------------
+       IMAGE PREVIEW
+    ----------------------------------------- */
+
+    const reader =
+      new FileReader();
+
+    reader.onload =
+      function () {
+
+        previewImage.src =
+          reader.result;
+
+        imagePreview.style.display =
+          "block";
+      };
+
+    reader.onerror =
+      function () {
+
+        fileName.textContent =
+          "❌ Could not read the image.";
+
+        fileName.style.color =
+          "var(--danger)";
+
+        imagePreview.style.display =
+          "none";
+      };
+
+    reader.readAsDataURL(file);
+
+  }
+);
+
+
+/* =========================================
+   COLOR
+========================================= */
+
+const color =
+  document.getElementById("color");
+
+const colorName =
+  document.getElementById("colorName");
+
+color.addEventListener(
+  "input",
+  function () {
+
+    if (!colorName.value.trim()) {
+
+      colorName.placeholder =
+        color.value.toUpperCase();
+
+    }
+
+  }
+);
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+function goBack() {
+
+  window.location.href =
+    "review.html";
+
+}
+
+
+/* =========================================
+   FORM SUBMIT
+========================================= */
+
+document
+  .getElementById("designForm")
+  .addEventListener(
+    "submit",
+    function (event) {
+
+      event.preventDefault();
+
+
+      const status =
+        document.getElementById("status");
+
+      const button =
+        document.getElementById("continueButton");
+
+
+      /* =========================================
+         DESIGN TYPE
+      ========================================= */
+
+      const designType =
+        document.querySelector(
+          'input[name="designType"]:checked'
+        );
+
+
+      /* =========================================
+         VALUES
+      ========================================= */
+
+      const description =
+        document
+          .getElementById("description")
+          .value
+          .trim();
+
+
+      const patternStyle =
+        document.getElementById(
+          "patternStyle"
+        ).value;
+
+
+      const fileType =
+        document.getElementById(
+          "fileType"
+        ).value;
+
+
+      const selectedColor =
+        document.getElementById(
+          "color"
+        ).value;
+
+
+      const selectedColorName =
+        document
+          .getElementById("colorName")
+          .value
+          .trim();
+
+
+      const size =
+        document.getElementById(
+          "size"
+        ).value;
+
+
+      const quantity =
+        Number(
+          document.getElementById(
+            "quantity"
+          ).value
+        );
+
+
+      const instructions =
+        document
+          .getElementById("instructions")
+          .value
+          .trim();
+
+
+      const imageFile =
+        referenceImage.files[0] || null;
+
+
+      /* =========================================
+         VALIDATION
+      ========================================= */
+
+      if (!designType) {
+
+        status.textContent =
+          "❌ Please select a design type.";
+
+        status.style.color =
+          "var(--danger)";
+
+        return;
+      }
+
+
+      if (!description) {
+
+        status.textContent =
+          "❌ Please describe your design.";
+
+        status.style.color =
+          "var(--danger)";
+
+        document
+          .getElementById("description")
+          .focus();
+
+        return;
+      }
+
+
+      if (!size) {
+
+        status.textContent =
+          "❌ Please select a size.";
+
+        status.style.color =
+          "var(--danger)";
+
+        return;
+      }
+
+
+      if (
+        !quantity ||
+        quantity < 1 ||
+        quantity > 999
+      ) {
+
+        status.textContent =
+          "❌ Quantity must be between 1 and 999.";
+
+        status.style.color =
+          "var(--danger)";
+
+        return;
+      }
+
+
+      /* =========================================
+         PACKAGE VALIDATION
+      ========================================= */
+
+      if (
+        !selectedPackage ||
+        !selectedPackage.name
+      ) {
+
+        status.textContent =
+          "❌ Package information is missing.";
+
+        status.style.color =
+          "var(--danger)";
+
+        return;
+      }
+
+
+      const packageName =
+        String(
+          selectedPackage.name
+        ).trim();
+
+
+      const packagePrice =
+        validPackages[packageName];
+
+
+      if (
+        packagePrice === undefined
+      ) {
+
+        status.textContent =
+          "❌ Invalid package selected.";
+
+        status.style.color =
+          "var(--danger)";
+
+        return;
+      }
+
+
+      /* =========================================
+         DESIGN OBJECT
+      ========================================= */
+
+      const designDetails = {
+
+        designType:
+          designType.value,
+
+        description:
+          description,
+
+        patternStyle:
+          patternStyle,
+
+        fileType:
+          fileType,
+
+        color:
+          selectedColor,
+
+        colorName:
+          selectedColorName,
+
+        size:
+          size,
+
+        quantity:
+          quantity,
+
+        additionalInstructions:
+          instructions,
+
+        savedAt:
+          new Date().toISOString()
+
+      };
+
+
+      /* =========================================
+         SAVE VERIFIED PACKAGE
+      ========================================= */
+
+      localStorage.setItem(
+        "selectedPackage",
+        JSON.stringify({
+          name: packageName,
+          price: packagePrice
+        })
+      );
+
+
+      /* =========================================
+         SAVE DESIGN DETAILS
+      ========================================= */
+
+      localStorage.setItem(
+        "designDetails",
+        JSON.stringify(
+          designDetails
+        )
+      );
+
+
+      /* =========================================
+         SAVE IMAGE
+      ========================================= */
+
+      if (imageFile) {
+
+        button.disabled =
+          true;
+
+        button.textContent =
+          "Saving image...";
+
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          function () {
+
+            try {
+
+              localStorage.setItem(
+                "referenceImage",
+                reader.result
+              );
+
+              localStorage.setItem(
+                "referenceImageName",
+                imageFile.name
+              );
+
+              openReview();
+
+            } catch (error) {
+
+              console.error(
+                "❌ IMAGE SAVE ERROR:",
+                error
+              );
+
+              button.disabled =
+                false;
+
+              button.textContent =
+                "Continue to Review →";
+
+              status.textContent =
+                "❌ Image is too large to save.";
+
+              status.style.color =
+                "var(--danger)";
+            }
+
+          };
+
+
+        reader.onerror =
+          function () {
+
+            button.disabled =
+              false;
+
+            button.textContent =
+              "Continue to Review →";
+
+            status.textContent =
+              "❌ Could not read the image.";
+
+            status.style.color =
+              "var(--danger)";
+
+          };
+
+
+        reader.readAsDataURL(
+          imageFile
+        );
+
+      } else {
+
+        openReview();
+
+      }
+
+    }
+  );
+
+
+/* =========================================
+   OPEN REVIEW
+========================================= */
+
+function openReview() {
+
+  const status =
+    document.getElementById("status");
+
+  status.textContent =
+    "✓ Details saved. Opening review...";
+
+  status.style.color =
+    "var(--success)";
+
+
+  setTimeout(
+    function () {
+
+      window.location.href =
+        "review.html";
+
+    },
+    500
+  );
+
+}
+
+</script>
+  
+</body>
+
+</html>
