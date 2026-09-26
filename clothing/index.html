@@ -2946,7 +2946,7 @@ background: rgba(0, 0, 0, 0.75) !important;
    BACKEND
 ========================================================= */
 
-const BACKEND_URL = "https://yemen-lebs.onrender.com;
+const BACKEND_URL = "https://yemen-lebs.onrender.com";
 
 /* =========================================================
    PACKAGE SELECTION
@@ -3085,11 +3085,15 @@ function buildImageUrl(imagePath) {
     try {
         path = decodeURIComponent(path);
     } catch (error) {
-        console.warn("⚠️ Image decode warning:", error);
+        console.warn(
+            "⚠️ Image decode warning:",
+            error
+        );
     }
 
     // Find adobe/ inside Windows path
-    const adobeIndex = path.toLowerCase().indexOf("adobe/");
+    const adobeIndex =
+        path.toLowerCase().indexOf("adobe/");
 
     if (adobeIndex !== -1) {
         path = path.substring(adobeIndex);
@@ -3111,12 +3115,18 @@ function buildImageUrl(imagePath) {
                 })
                 .join("/");
 
-        console.log("🖼️ FINAL IMAGE URL:", finalUrl);
+        console.log(
+            "🖼️ FINAL IMAGE URL:",
+            finalUrl
+        );
 
         return finalUrl;
     }
 
-    console.warn("⚠️ UNKNOWN IMAGE PATH:", path);
+    console.warn(
+        "⚠️ UNKNOWN IMAGE PATH:",
+        path
+    );
 
     return path;
 }
