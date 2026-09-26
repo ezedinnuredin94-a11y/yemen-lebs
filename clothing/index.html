@@ -2946,8 +2946,7 @@ background: rgba(0, 0, 0, 0.75) !important;
    BACKEND
 ========================================================= */
 
-const BACKEND_URL = "https://yemen-lebs.onrender.com";
-
+const BACKEND_URL = "https://yemen-lebs.onrender.com;
 
 /* =========================================================
    PACKAGE SELECTION
@@ -3044,204 +3043,83 @@ function continueToLogin() {
 /* =========================================================
    LOAD SAVED PACKAGE
 ========================================================= */
-
-function loadSelectedPackage() {
-
-  const saved =
-    localStorage.getItem("selectedPackage");
-
-  if (!saved) {
-    return;
-  }
-
-  try {
-
-    const packageData =
-      JSON.parse(saved);
-
-    const text =
-      document.getElementById(
-        "selectedPackageText"
-      );
-
-    const button =
-      document.getElementById(
-        "packageContinueBtn"
-      );
-
-    if (text) {
-
-      text.textContent =
-        `${packageData.name} package selected — $${packageData.price}`;
-
+function buildImageUrl(imagePath) {
+    if (!imagePath) {
+        return "";
     }
 
-    if (button) {
-      button.disabled = false;
-    }
+    let path = String(imagePath).trim();
 
-    document
-      .querySelectorAll(".package-card")
-      .forEach(function (card) {
+    console.log("📦 ORIGINAL IMAGE:", path);
 
-        const title =
-          card.querySelector("h3");
+    // Already a full URL
+    if (/^https?:\/\//i.test(path)) {
 
-        if (
-          title &&
-          title.textContent
-            .trim()
-            .toLowerCase() ===
-          String(packageData.name)
-            .trim()
-            .toLowerCase()
-        ) {
-
-          card.classList.add("selected");
-
+        // Convert old localhost URL to production backend
+        if (path.startsWith("http://localhost:5000")) {
+            path = path.replace(
+                "http://localhost:5000",
+                BACKEND_URL
+            );
         }
 
-      });
+        if (path.startsWith("http://127.0.0.1:5000")) {
+            path = path.replace(
+                "http://127.0.0.1:5000",
+                BACKEND_URL
+            );
+        }
 
-    console.log(
-      "🔄 SAVED PACKAGE LOADED:",
-      packageData
-    );
+        console.log("🖼️ FINAL IMAGE URL:", path);
 
-  } catch (error) {
+        return path;
+    }
 
-    console.error(
-      "❌ PACKAGE DATA ERROR:",
-      error
-    );
+    // Windows backslashes → /
+    path = path.replace(/\\/g, "/");
 
-    localStorage.removeItem(
-      "selectedPackage"
-    );
-  }
-}
+    // Remove file://
+    path = path.replace(/^file:\/\//i, "");
 
+    // Decode URL
+    try {
+        path = decodeURIComponent(path);
+    } catch (error) {
+        console.warn("⚠️ Image decode warning:", error);
+    }
 
-/* =========================================================
-   IMAGE URL BUILDER
-========================================================= */
+    // Find adobe/ inside Windows path
+    const adobeIndex = path.toLowerCase().indexOf("adobe/");
 
-function buildImageUrl(imagePath) {
+    if (adobeIndex !== -1) {
+        path = path.substring(adobeIndex);
+    }
 
-  if (!imagePath) {
-    return "";
-  }
+    // Remove leading /
+    path = path.replace(/^\/+/, "");
 
-  let path =
-    String(imagePath).trim();
+    // Convert adobe/... to production backend URL
+    if (path.toLowerCase().startsWith("adobe/")) {
 
-  console.log(
-    "📦 ORIGINAL IMAGE:",
-    path
-  );
+        const finalUrl =
+            BACKEND_URL +
+            "/" +
+            path
+                .split("/")
+                .map(function (part) {
+                    return encodeURIComponent(part);
+                })
+                .join("/");
 
+        console.log("🖼️ FINAL IMAGE URL:", finalUrl);
 
-  /* Already a web URL */
+        return finalUrl;
+    }
 
-  if (
-    /^https?:\/\//i.test(path)
-  ) {
+    console.warn("⚠️ UNKNOWN IMAGE PATH:", path);
 
     return path;
-
-  }
-
-
-  /* Windows backslashes → / */
-
-  path =
-    path.replace(/\\/g, "/");
-
-
-  /* Remove file:// */
-
-  path =
-    path.replace(
-      /^file:\/\//i,
-      ""
-    );
-
-
-  /* Decode URL */
-
-  try {
-
-    path =
-      decodeURIComponent(path);
-
-  } catch (error) {
-
-    console.warn(
-      "⚠️ Image decode warning:",
-      error
-    );
-
-  }
-
-
-  /* Find adobe/ inside Windows path */
-
-  const adobeIndex =
-    path
-      .toLowerCase()
-      .indexOf("adobe/");
-
-  if (adobeIndex !== -1) {
-
-    path =
-      path.substring(adobeIndex);
-
-  }
-
-
-  /* Remove leading / */
-
-  path =
-    path.replace(/^\/+/, "");
-
-
-  /* Convert Adobe path to backend URL */
-
-  if (
-    path
-      .toLowerCase()
-      .startsWith("adobe/")
-  ) {
-
-    const finalUrl =
-      BACKEND_URL +
-      "/" +
-      path
-        .split("/")
-        .map(function (part) {
-          return encodeURIComponent(part);
-        })
-        .join("/");
-
-    console.log(
-      "🖼️ FINAL IMAGE URL:",
-      finalUrl
-    );
-
-    return finalUrl;
-
-  }
-
-
-  console.warn(
-    "⚠️ UNKNOWN IMAGE PATH:",
-    path
-  );
-
-  return path;
 }
-
-
 /* =========================================================
    GALLERY VARIABLES
 ========================================================= */
