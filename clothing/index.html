@@ -657,13 +657,13 @@
       border-color: var(--ink);
     }
 
-    /* Grid: 3 columns on desktop so pieces render smaller */
+    /* Grid: 4 columns on desktop so pieces render smaller */
     .grid {
       display: grid;
 
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
 
-      gap: 14px;
+      gap: 12px;
 
       max-width: 1100px;
     }
@@ -686,7 +686,7 @@
 
       cursor: pointer;
 
-      min-height: 200px;
+      min-height: 150px;
     }
 
     .piece.show {
@@ -695,7 +695,7 @@
 
     .piece .img-wrapper {
       width: 100%;
-      height: 200px;
+      height: 150px;
 
       overflow: hidden;
     }
@@ -1098,6 +1098,10 @@
         grid-template-columns: 1fr;
       }
 
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
     }
 
     @media (max-width: 800px) {
@@ -1193,7 +1197,7 @@
       .grid {
         grid-template-columns: repeat(2, 1fr);
 
-        gap: 10px;
+        gap: 8px;
       }
 
       .reviews {
@@ -2496,7 +2500,7 @@ background: rgba(0, 0, 0, 0.75) !important;
       <div class="img-wrapper">
 
         <img
-          src="adobe/my-images/techpack1 (4).png"
+          src="adobe/my-images/techpack/tachpack1 (4).png"
           alt="Tech Pack 4"
         >
 
@@ -2513,7 +2517,7 @@ background: rgba(0, 0, 0, 0.75) !important;
       <div class="img-wrapper">
 
         <img
-          src="adobe/my-images/techpack1 (2).png"
+          src="adobe/my-images/techpack/tachpack1 (2).png"
           alt="Tech Pack 2"
         >
 
@@ -2530,7 +2534,7 @@ background: rgba(0, 0, 0, 0.75) !important;
       <div class="img-wrapper">
 
         <img
-          src="adobe/my-images/techpack1 (3).png"
+          src="adobe/my-images/techpack/tachpack1 (3).png"
           alt="Tech Pack 3"
         >
 
@@ -3042,7 +3046,84 @@ function continueToLogin() {
 
 /* =========================================================
    LOAD SAVED PACKAGE
+   (previously called in DOMContentLoaded but never
+   defined anywhere — this was the bug that stopped
+   ALL JavaScript below it from ever running.)
 ========================================================= */
+
+function loadSelectedPackage() {
+
+  const savedPackage =
+    localStorage.getItem("selectedPackage");
+
+  if (!savedPackage) {
+
+    console.log(
+      "ℹ️ NO SAVED PACKAGE"
+    );
+
+    return;
+  }
+
+  try {
+
+    const packageData =
+      JSON.parse(savedPackage);
+
+    console.log(
+      "🔄 SAVED PACKAGE LOADED:",
+      packageData
+    );
+
+    document.querySelectorAll(".package-card").forEach(function (card) {
+
+      const title = card.querySelector("h3");
+
+      if (
+        title &&
+        title.textContent.trim().toLowerCase() ===
+        String(packageData.name).toLowerCase()
+      ) {
+
+        card.classList.add("selected");
+
+      }
+
+    });
+
+    const text =
+      document.getElementById("selectedPackageText");
+
+    if (text) {
+
+      text.textContent =
+        `${packageData.name} package selected — $${packageData.price}`;
+
+    }
+
+    const button =
+      document.getElementById("packageContinueBtn");
+
+    if (button) {
+
+      button.disabled = false;
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "❌ SAVED PACKAGE PARSE ERROR:",
+      error
+    );
+
+    localStorage.removeItem("selectedPackage");
+
+  }
+
+}
+
+
 function buildImageUrl(imagePath) {
     if (!imagePath) {
         return "";
@@ -4608,6 +4689,7 @@ reviewForm.addEventListener("submit", function(e) {
         <input
           type="password"
           id="registerPassword"
+          autocomplete="new-password"
           required
           minlength="6"
         >
@@ -4618,6 +4700,7 @@ reviewForm.addEventListener("submit", function(e) {
         <input
           type="password"
           id="registerConfirmPassword"
+          autocomplete="new-password"
           required
           minlength="6"
         >
