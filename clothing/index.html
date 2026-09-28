@@ -3151,9 +3151,9 @@ function buildImageUrl(imagePath) {
     if (/^https?:\/\//i.test(path)) {
 
         // Convert old localhost URL to production backend
-        if (path.startsWith("http://localhost:5000")) {
+        if (path.startsWith("https://yemen-lebs.onrender.com")) {
             path = path.replace(
-                "http://localhost:5000",
+                "https://yemen-lebs.onrender.com",
                 BACKEND_URL
             );
         }
